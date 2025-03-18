@@ -2,12 +2,14 @@ public class Robo {
     private String nome;
     private int posicaoX;
     private int posicaoY;
+    private String direcao;
 
     // Construtor
-    public Robo(String n, int x, int y) {
+    public Robo(String n, int x, int y, String d) {
         nome = n;
         posicaoX = x;
         posicaoY = y;
+        direcao = d;
     }
 
     // Método para mover o robô
@@ -25,5 +27,9 @@ public class Robo {
     // Método para exibir a posição do robô
     public void exibirPosicao() {
         System.out.println("Robo " + nome + " está na posição (" + posicaoX + ", " + posicaoY + ")");
+    }
+
+    public void identificarObstaculo(){
+        
     }
 }
