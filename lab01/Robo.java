@@ -1,21 +1,29 @@
-class Robo {
-    //define a classe
+public class Robo {
     private String nome;
     private int posicaoX;
     private int posicaoY;
-//funcao de atribuicao
-    public Robo(String nomedorobo, int x, int y){
-        nome= nomedorobo;
-        posicaoX= x;
+
+    // Construtor
+    public Robo(String n, int x, int y) {
+        nome = n;
+        posicaoX = x;
         posicaoY = y;
     }
-//metodos
-    public void mover (int deltaX, int deltaY){
-        posicaoX+=deltaX;
-        posicaoY+=deltaY;
+
+    // Método para mover o robô
+    public void mover(int deltaX, int deltaY) {
+        posicaoX += deltaX;
+        posicaoY += deltaY;
     }
-    public void exibirPosicao(){
-        System.out.println(nome + "está na posição("+ posicaoX +", "+ posicaoY +")");
+    public int retornarX() {
+        return posicaoX;
+    }
+    public int retornarY() {
+        return posicaoY;
     }
 
+    // Método para exibir a posição do robô
+    public void exibirPosicao() {
+        System.out.println("Robo " + nome + " está na posição (" + posicaoX + ", " + posicaoY + ")");
+    }
 }
