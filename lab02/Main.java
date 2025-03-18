@@ -1,10 +1,10 @@
 public class Main {
     public static void main(String[] args) {
         // Criando o ambiente
-        Ambiente ambiente = new Ambiente(100, 100);
+        Ambiente ambiente = new Ambiente(100, 100, 100);
 
         // Criando um robô
-        Robo robo = new Robo("Robson", 3, 22);
+        Robo robo = new Robo("Robson", 3, 22, "Norte");
 
         // Movendo o robô
         robo.mover(2,33);
