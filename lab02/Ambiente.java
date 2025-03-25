@@ -1,10 +1,13 @@
 import java.util.ArrayList; //importa a biblioteca para criar listas
+import java.util.HashMap;
 
 public class Ambiente {
     private int largura;
     private int altura;
     private int profundidade; //para robos aereos
     private ArrayList<Robo> robosnoespaco; //lista de robos
+    private HashMap<String, String> minerais; // Armazena minerais nas coordenadas
+
 
 
     // Construtor
@@ -13,6 +16,7 @@ public class Ambiente {
         altura = y;
         profundidade = z; //para robos aereos
         robosnoespaco = new ArrayList<Robo>(); //cria a lista vazia para armazenar os robos
+        minerais = new HashMap<>();
     }
 
 
@@ -23,7 +27,22 @@ public class Ambiente {
 
     public void adicionarRobo(Robo r) {
         robosnoespaco.add(r); //adiciona um robo a lista
-    } //para chamar no main: ambiente.adicionarRobo(robo1);
+    }
+
+    public void adicionarMineral(int x, int y, String tipoMineral) {
+        String chave = x + "," + y;
+        minerais.put(chave, tipoMineral);
+    }
+
+    public boolean existeMineral(int x, int y, String tipoMineral) {
+        String chave = x + "," + y;
+        return minerais.containsKey(chave) && minerais.get(chave).equals(tipoMineral);
+    }
+
+    public void removerMineral(int x, int y) {
+        String chave = x + "," + y;
+        minerais.remove(chave);
+    }
 
 }
 
