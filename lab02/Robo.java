@@ -1,5 +1,5 @@
 public class Robo {
-    private String nome;
+    protected String nome;
     private int posicaoX;
     private int posicaoY;
     private String direcao;

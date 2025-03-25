@@ -25,8 +25,5 @@ public class Ambiente {
         robosnoespaco.add(r); //adiciona um robo a lista
     } //para chamar no main: ambiente.adicionarRobo(robo1);
 
-    public ArrayList<Robo> getRobosAtivos() {
-    return robosAtivos;
-    } //para chamar no main: ArrayList<Robo> lista = ambiente.getRobosAtivos();
 }
 
