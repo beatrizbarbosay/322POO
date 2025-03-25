@@ -62,5 +62,31 @@ public class Main {
         } else {
             System.out.println("O robô está fora dos limites do ambiente.");
         }
+        RoboAereo robo4 = new RoboAereo("Airton", 30, 30, "Oeste",10,100); //cria o robo aereo e testa seus comandos
+        ambiente.adicionarRobo(robo4);
+        robo4.subir(10);
+        robo4.mover(2,2);
+        robo4.exibirPosicao();
+        robo4.descer(5);
+        robo4.exibirPosicao();
+
+        RoboAereoFantasma robo5 = new RoboAereoFantasma("Gasparzinho", 50, 50, "Sul", 20, 100); //cria o robo aereo fantasma e testa seus comandos
+        ambiente.adicionarRobo(robo5);
+        robo5.mover(3,3);
+        robo5.exibirPosicao();
+        robo5.identificarObstaculo(robo1);
+
+
+        RoboAereoFada robo6 = new RoboAereoFada("Tinker Bell", 70, 70, "Norte", 30, 100, "Rosa"); //cria o robo aereo fada e testa seus comandos
+        robo6.exibirPosicao();
+        ambiente.adicionarRobo(robo6);
+        robo6.mudarCor("Azul");
+        robo6.brilhar();
+        robo6.mover(4,4);
+        robo6.exibirPosicao();
+
+
+
+
     }
 }

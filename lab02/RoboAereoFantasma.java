@@ -4,7 +4,7 @@ public class RoboAereoFantasma extends RoboAereo { //uma subclasse de robo aereo
     }
 
     @Override
-    public void identificarObstaculo() { //ele "ultrapassa" obstaculos
+    public void identificarObstaculo(Robo outroRobo ) { //ele "ultrapassa" obstaculos
         System.out.println("Robo " + retornarNome() + "é um robô aéreo fantasma e não identifica obstáculos");
     }    
 }
