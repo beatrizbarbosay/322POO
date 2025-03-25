@@ -23,7 +23,7 @@ public class RoboAereo extends Robo{ //cria a classe RoboAereo que herda de Robo
         }else{
             altitude = 0;//se for menor, a altitude é igual a 0
         }
-        system.out.println("Robo " + retornarNome() + " desceu para a altitude " + altitude);
+        System.out.println("Robo " + retornarNome() + " desceu para a altitude " + altitude);
     }
     public int getAltitude(){ //
         return altitude;//retorna a altitude

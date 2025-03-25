@@ -10,10 +10,10 @@ class RoboMinerador extends RoboTerrestre {
 
     public void minerar() {
         if (ambiente.existeMineral(retornarX(), retornarY(), tipoMineral)) {
-            System.out.println("Robo " + nome + " minerou " + tipoMineral + " na posição (" + retornarX() + ", " + retornarY() + ")");
+            System.out.println("Robo " + retornarNome() + " minerou " + tipoMineral + " na posição (" + retornarX() + ", " + retornarY() + ")");
             ambiente.removerMineral(retornarX(), retornarY());
         } else {
-            System.out.println("Robo " + nome + " não encontrou " + tipoMineral + " para minerar na posição (" + retornarX() + ", " + retornarY() + ")");
+            System.out.println("Robo " + retornarNome() + " não encontrou " + tipoMineral + " para minerar na posição (" + retornarX() + ", " + retornarY() + ")");
         }
     }
 }

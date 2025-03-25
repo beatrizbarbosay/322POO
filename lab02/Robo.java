@@ -1,5 +1,5 @@
 public class Robo {
-    protected String nome;
+    private String nome;
     private int posicaoX;
     private int posicaoY;
     private String direcao;
@@ -23,13 +23,22 @@ public class Robo {
     public int retornarY() {
         return posicaoY;
     }
-
+    public String retornarNome() {
+        return nome;
+    }
+    
+    
     // Método para exibir a posição do robô
     public void exibirPosicao() {
         System.out.println("Robo " + nome + " está na posição (" + posicaoX + ", " + posicaoY + ")");
     }
 
-    public void identificarObstaculo(){
-        
+    public void identificarObstaculo(Robo outroRobo) { //identifica outros robos mas ignora se for um robo fantasma
+        if (outroRobo instanceof RoboAereoFantasma) {
+            System.out.println("Robo " + retornarNome() + " não detecta obstáculos fantasmas.");
+        } else {
+            System.out.println("Robo " + retornarNome() + " detectou um obstáculo na posição (" + outroRobo.retornarX() + ", " + outroRobo.retornarY() + ")");
+        }
     }
+    
 }

@@ -8,10 +8,10 @@ class RoboBombardeiro extends RoboTerrestre {
 
     public void deixarBomba() {
         if (quantidadeBombas > 0) {
-            System.out.println("Robô " + nome + " deixou uma bomba na posição (" + retornarX() + ", " + retornarY() + ").");
+            System.out.println("Robô " + retornarNome() + " deixou uma bomba na posição (" + retornarX() + ", " + retornarY() + ").");
             quantidadeBombas--;
         } else {
-            System.out.println("Robô " + nome + " está sem bombas");
+            System.out.println("Robô " + retornarNome() + " está sem bombas");
         }
     }
 }
