@@ -1,46 +1,53 @@
-public class RoboAereo extends Robo{ //cria a classe RoboAereo que herda de Robo
-    private int altitude;
-    private int altitudemax;
+// Classe que herda de Robo e representa robôs aéreos
+public class RoboAereo extends Robo{
+    private int altitude; // Altitude atual do robô aéreo
+    private int altitudemax; // Altitude máxima que o robô aéreo pode atingir
 
-    public RoboAereo(String n, int x, int y, String d, int a, int am) { // construtor herdando de Robo
-        super(n, x, y, d);
-        altitude = a;
-        altitudemax = am;
+    // Construtor que recebe o nome, posição, direção, velocidade e altitude máxima
+    public RoboAereo(String n, int x, int y, String d, int a, int am) {
+        super(n, x, y, d); // Chama o construtor da classe Robo
+        altitude = a; // Inicializa a altitude do robô
+        altitudemax = am; // Define a altitude máxima do robô
     }
 
-    public void subir(int metros) { //cria o método subir
-        if(altitude+metros<= altitudemax){ //verifica se a altitude é menor que a altitude máxima
-            altitude += metros;
+    // Método para subir o robô a uma certa altura
+    public void subir(int metros) {
+        if(altitude + metros<= altitudemax){ // Verifica se a altitude é menor que a altitude máxima
+            altitude += metros; // Aumenta a altitude
         }else{
-            altitude = altitudemax;//se for maior, a altitude é igual a altitude máxima
+            altitude = altitudemax;// Se for maior, o robô fica na altitude máxima
         }
-        System.out.println("Robo " + retornarNome() + " subiu para a altitude " + altitude);
+        System.out.println("Robô " + retornarNome() + " subiu para a altitude " + altitude);
     }
 
+    // Método para descer o robô a uma certa altura
     public void descer(int metros) {//
-        if(altitude-metros>=0){//verifica se a altitude é maior que 0
+        if(altitude-metros>=0){// Verifica se a altitude é maior que 0 (altitude mínima)
             altitude -= metros;
         }else{
-            altitude = 0;//se for menor, a altitude é igual a 0
+            altitude = 0;// Se for menor, o robô fica na altitude 0 (mínima)
         }
-        System.out.println("Robo " + retornarNome() + " desceu para a altitude " + altitude);
+        System.out.println("Robô " + retornarNome() + " desceu para a altitude " + altitude);
     }
+
+    //Retorna a altitude do robô
     public int getAltitude(){ //
-        return altitude;//retorna a altitude
+        return altitude;
     }
+
+    //Retorna a altitude máxima
     public int getAltitudeMax(){
         return altitudemax;
     }
 
     @Override
     public void exibirPosicao(){ //sobrescreve o método exibirPosicao
-        super.exibirPosicao();
-        System.out.println("Robo " + retornarNome() + " está na altitude " + altitude);
+        System.out.println("Robô " + retornarNome() + " está na posição " + "(" + retornarX() + ", " + retornarY() + ", " + altitude + ")");
     }
 
     @Override
-    public void identificarObstaculo(Robo outroRobo) { //sobrescreve o método identificarObstaculo
-        if (outroRobo instanceof RoboAereoFantasma) { //verifica se o outroRobo é uma instância de RoboAereoFantasma
+    public void identificarObstaculo(Robo outroRobo) { // Sobrescreve o método identificarObstaculo
+        if (outroRobo instanceof RoboAereoFantasma) { // Verifica se o outroRobo é uma instância de RoboAereoFantasma
             System.out.println("Robo " + retornarNome() + " não detecta obstáculos fantasmas.");
         } else {
             System.out.println("Robo " + retornarNome() + " detectou um obstáculo na posição (" + outroRobo.retornarX() + ", " + outroRobo.retornarY() + ")");

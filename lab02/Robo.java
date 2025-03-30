@@ -1,22 +1,26 @@
+// Classe base para todos os robôs
+
 public class Robo {
-    private String nome;
-    private int posicaoX;
-    private int posicaoY;
-    private String direcao;
+    private String nome; // Nome do robô
+    private int posicaoX; // Posição X do robô no ambiente
+    private int posicaoY; // Posição Y do robô no ambiente
+    private String direcao; // Direção atual do robô (Norte, Sul, Leste, Oeste)
 
-    // Construtor
+    // Construtor da classe Robo
     public Robo(String n, int x, int y, String d) {
-        nome = n;
-        posicaoX = x;
-        posicaoY = y;
-        direcao = d;
+        nome = n;  // Inicializa o nome do robô
+        posicaoX = x;  // Inicializa a posição X
+        posicaoY = y;  // Inicializa a posição Y
+        direcao = d;  // Inicializa a direção
     }
 
-    // Método para mover o robô
+    // Método para mover o robô para uma nova posição
     public void mover(int deltaX, int deltaY) {
-        posicaoX += deltaX;
-        posicaoY += deltaY;
+        posicaoX += deltaX; // Atualiza a posição X
+        posicaoY += deltaY; // Atualiza a posição Y
     }
+
+    // Métodos para acessar as propriedades do robô
     public int retornarX() {
         return posicaoX;
     }
@@ -28,16 +32,17 @@ public class Robo {
     }
     
     
-    // Método para exibir a posição do robô
+    // Método para exibir a posição do robô no ambiente
     public void exibirPosicao() {
-        System.out.println("Robo " + nome + " está na posição (" + posicaoX + ", " + posicaoY + ")");
+        System.out.println("Robô " + nome + " está na posição (" + posicaoX + ", " + posicaoY + ")");
     }
 
-    public void identificarObstaculo(Robo outroRobo) { //identifica outros robos mas ignora se for um robo fantasma
+    //identifica outros robos como obstáculos, exceto se for um robô fantasma
+    public void identificarObstaculo(Robo outroRobo) {
         if (outroRobo instanceof RoboAereoFantasma) {
-            System.out.println("Robo " + retornarNome() + " não detecta obstáculos fantasmas.");
+            System.out.println("Robô " + retornarNome() + " não detecta obstáculos fantasmas.");
         } else {
-            System.out.println("Robo " + retornarNome() + " detectou um obstáculo na posição (" + outroRobo.retornarX() + ", " + outroRobo.retornarY() + ")");
+            System.out.println("Robô " + retornarNome() + " detectou um obstáculo na posição (" + outroRobo.retornarX() + ", " + outroRobo.retornarY() + ")");
         }
     }
     
