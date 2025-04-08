@@ -41,6 +41,23 @@ public class Ambiente {
         obstaculos.add(o); //adiciona um obstáculo a lista
     }
 
+    public ArrayList<Robo> getRobosnoespaco() {
+        return robosnoespaco;
+    }
+
+    public Robo getNomeRobo(String nome) {
+        for (Robo robo : robosnoespaco) {
+            if (robo.retornarNome().equalsIgnoreCase(nome)) {
+                return robo;
+            }
+        }
+        return null; 
+    }
+
+    public ArrayList<Obstaculo> getObstaculos() {
+        return obstaculos;
+    }
+
     // Método para adicionar um mineral ao ambiente
     public void adicionarMineral(int x, int y, String tipoMineral) {
         String chave = x + "," + y;
@@ -58,5 +75,11 @@ public class Ambiente {
         String chave = x + "," + y;
         minerais.remove(chave);
     }
+
+
+
+
+
+
 
 }
