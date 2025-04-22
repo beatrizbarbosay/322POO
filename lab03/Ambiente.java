@@ -41,11 +41,11 @@ public class Ambiente {
         obstaculos.add(o); //adiciona um obstáculo a lista
     }
 
-    public ArrayList<Robo> getRobosnoespaco() {
+    public ArrayList<Robo> getRobos() {
         return robosnoespaco;
     }
 
-    public Robo getNomeRobo(String nome) {
+    public Robo getRoboPorNome(String nome) {
         for (Robo robo : robosnoespaco) {
             if (robo.retornarNome().equalsIgnoreCase(nome)) {
                 return robo;

@@ -37,6 +37,7 @@ public class Main {
                 System.out.print("Direção: ");
                 String direcao = scanner.nextLine();
 
+
                 if (tipo == 1) {
                     System.out.print("Velocidade: ");
                     int velocidade = scanner.nextInt();
@@ -158,12 +159,16 @@ public class Main {
 
         switch (cmd) {
             case 1:
-                System.out.print("Nova coordenada X: ");
+                System.out.print("Quanto irá mover em X: ");
                 int mx = scanner.nextInt();
-                System.out.print("Nova coordenada Y: ");
+                System.out.print("Quanto irá mover em Y: ");
                 int my = scanner.nextInt();
                 robo.mover(mx, my);
-                robo.exibirPosicao();                
+                robo.exibirPosicao();
+                if (!ambiente.dentroDosLimites(robo.retornarX(), robo.retornarY(), 0)) {
+                    System.out.print("Robô está fora dos limites");
+                    break;
+                }                
                 break;
             case 2:
                 if (robo instanceof RoboAereo) {
@@ -171,6 +176,10 @@ public class Main {
                     int subir = scanner.nextInt();
                     ((RoboAereo) robo).subir(subir);
                     robo.exibirPosicao();
+                    if (!ambiente.dentroDosLimites(robo.retornarX(), robo.retornarY(), ((RoboAereo) robo).getAltitude())) {
+                    System.out.print("Robô está fora dos limites");
+                    break;
+                    }          
                 }
                 break;
             case 3:
@@ -179,8 +188,11 @@ public class Main {
                     int descer = scanner.nextInt();
                     ((RoboAereo) robo).descer(descer);
                     robo.exibirPosicao();
+                    if (!ambiente.dentroDosLimites(robo.retornarX(), robo.retornarY(), ((RoboAereo) robo).getAltitude())) {
+                    System.out.print("Robô está fora dos limites");
                 }
                 break;
+                }
             case 4:
                 if (robo instanceof RoboBombardeiro) {
                     ((RoboBombardeiro) robo).deixarBomba();
