@@ -6,10 +6,16 @@ public class Main {
         // Criando o ambiente
        Ambiente ambiente = new Ambiente(100, 100, 100);
 
-
+        // Adicionando os minerais
        ambiente.adicionarMineral(11, 16, "Ametista");
        ambiente.adicionarMineral(15, 21, "Ferro");
        ambiente.adicionarMineral(30, 30, "Esmeralda");
+
+       Obstaculo o1 = new Obstaculo(2, 3, 4, 3, TipoObstaculo.Fogo);
+        ambiente.adicionarObstaculo(o1);
+
+        Obstaculo o2 = new Obstaculo(6, 6, 6, 8, TipoObstaculo.Cachoeira);
+        ambiente.adicionarObstaculo(o2);
 
         while (true) {
             System.out.println("Deseja adicionar robô?");
@@ -36,10 +42,23 @@ public class Main {
                 scanner.nextLine(); // limpar buffer
                 System.out.print("Direção: ");
                 String direcao = scanner.nextLine();
+                System.out.println("Tipo de sensor:");
+                System.out.println("1. Temperatura");
+                System.out.println("2. Proximidade");
+                System.out.print("Escolha: ");
+                int SensorTipo = scanner.nextInt();
+                scanner.nextLine();
+                System.out.print("Raio do sensor: ");
+                double raio = scanner.nextDouble();
+        
+               
+
+
+
 
 
                 if (tipo == 1) {
-                    System.out.print("Velocidade: ");
+                    System.out.print("Velocidade do Robô: ");
                     int velocidade = scanner.nextInt();
                     scanner.nextLine(); // limpar buffer
 
@@ -59,17 +78,38 @@ public class Main {
                             RoboMinerador robo = new RoboMinerador(nome, x, y, direcao, velocidade, tipoMineral, ambiente);
                             ambiente.adicionarRobo(robo);
                             System.out.println("Robô minerador adicionado!");
+                            if (SensorTipo == 1){
+                                SensorQuenteFrio sensor = new SensorQuenteFrio(raio);
+                                robo.adicionarSensor(sensor);
+                            } else if (SensorTipo == 2){
+                                SensorProximidade sensor = new SensorProximidade(raio);
+                                robo.adicionarSensor(sensor);
+                            }
                         } else if (comp == 2) {
                             System.out.print("Quantidade de bombas: ");
                             int quantidadeBombas = scanner.nextInt();
                             RoboBombardeiro robo = new RoboBombardeiro(nome, x, y, direcao, velocidade, quantidadeBombas);
                             ambiente.adicionarRobo(robo);
                             System.out.println("Robô bombardeiro adicionado!");
+                            if (SensorTipo == 1){
+                                SensorQuenteFrio sensor = new SensorQuenteFrio(raio);
+                                robo.adicionarSensor(sensor);
+                            } else if (SensorTipo == 2){
+                                SensorProximidade sensor = new SensorProximidade(raio);
+                                robo.adicionarSensor(sensor);
+                            }
                         }
                     } else {
                         RoboTerrestre robo = new RoboTerrestre(nome, x, y, direcao, velocidade);
                         ambiente.adicionarRobo(robo);
                         System.out.println("Robô terrestre adicionado!");
+                        if (SensorTipo == 1){
+                                SensorQuenteFrio sensor = new SensorQuenteFrio(raio);
+                                robo.adicionarSensor(sensor);
+                            } else if (SensorTipo == 2){
+                                SensorProximidade sensor = new SensorProximidade(raio);
+                                robo.adicionarSensor(sensor);
+                            }
                     }
                 } else if (tipo == 2) {
                     System.out.print("Altitude: ");
@@ -94,19 +134,41 @@ public class Main {
                             RoboAereoFada robo = new RoboAereoFada(nome, x, y, direcao, altitude, altitudeMaxima, cor);
                             ambiente.adicionarRobo(robo);
                             System.out.println("Robô aéreo fada adicionado!");
+                            if (SensorTipo == 1){
+                                SensorQuenteFrio sensor = new SensorQuenteFrio(raio);
+                                robo.adicionarSensor(sensor);
+                            } else if (SensorTipo == 2){
+                                SensorProximidade sensor = new SensorProximidade(raio);
+                                robo.adicionarSensor(sensor);
+                            }
                         } else if (comp == 2) {
                             RoboAereoFantasma robo = new RoboAereoFantasma(nome, x, y, direcao, altitude, altitudeMaxima);
                             ambiente.adicionarRobo(robo);
                             System.out.println("Robô aéreo fantasma adicionado!");
+                            if (SensorTipo == 1){
+                                SensorQuenteFrio sensor = new SensorQuenteFrio(raio);
+                                robo.adicionarSensor(sensor);
+                            } else if (SensorTipo == 2){
+                                SensorProximidade sensor = new SensorProximidade(raio);
+                                robo.adicionarSensor(sensor);
+                            }
                         }
                     } else {
                         RoboAereo robo = new RoboAereo(nome, x, y, direcao, altitude, altitudeMaxima);
                         ambiente.adicionarRobo(robo);
                         System.out.println("Robô aéreo adicionado!");
+                        if (SensorTipo == 1){
+                                SensorQuenteFrio sensor = new SensorQuenteFrio(raio);
+                                robo.adicionarSensor(sensor);
+                            } else if (SensorTipo == 2){
+                                SensorProximidade sensor = new SensorProximidade(raio);
+                                robo.adicionarSensor(sensor);
+                            }
                     }
                 } else {
                     System.out.println("Tipo inválido!");
                 }
+
             } else if (opcao == 2) {
     while (true) {
         System.out.println("\n--- CONTROLE DE ROBÔS ---");
@@ -134,6 +196,7 @@ public class Main {
 
         System.out.println("Comandos disponíveis:");
         System.out.println("1. Mover");
+        System.out.println("9. Monitorar Sensor");
 
         if (robo instanceof RoboAereo) {
             System.out.println("2. Subir");
@@ -227,8 +290,8 @@ public class Main {
                     }
                 }
                 break;
-            default:
-                System.out.println("Comando inválido.");
+            case 9:
+                robo.acionarSensor(ambiente);
         }
     }
 

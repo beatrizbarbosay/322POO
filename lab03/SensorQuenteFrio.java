@@ -24,7 +24,7 @@ public class SensorQuenteFrio extends Sensor {
                     System.out.printf("Temperatura = Quente. %s detectado a uma distância de %.2f cm.%n", tipo.name(), distancia);
                     detectouTemperatura = true;
                 } else if (tipo.isEhfrio()) {
-                    System.out.printf("Temperatura = Frio. %s detectado a uma distância de %.2f cm.%n",tipo.name().charAt(0) + tipo.name(), distancia);
+                    System.out.printf("Temperatura = Frio. %s detectado a uma distância de %.2f cm.%n",tipo.name(), distancia);
                     detectouTemperatura = true;
                 }
             }
