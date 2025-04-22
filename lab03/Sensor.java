@@ -9,6 +9,4 @@ public abstract class Sensor {
         return raio;
     }
 
-    public abstract void monitorar(Robo robo, Ambiente ambiente); // Método abstrato para monitorar obstáculos
-       
-}
+    public abstract void monitorar(Robo robo, Ambiente ambiente);
