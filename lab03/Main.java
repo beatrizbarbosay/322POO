@@ -1,165 +1,234 @@
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         // Criando o ambiente
-        Ambiente ambiente = new Ambiente(100, 100, 100);
+       Ambiente ambiente = new Ambiente(100, 100, 100);
 
-        ambiente.adicionarMineral(11, 16, "Ametista");
-        ambiente.adicionarMineral(15, 21, "Ferro");
-        ambiente.adicionarMineral(30, 30, "Esmeralda");
 
-        // Criando um robô terrestre (Robô 1)
-        RoboTerrestre robo1 = new RoboTerrestre("Robson", 3, 22, "Norte", 10);
-        ambiente.adicionarRobo(robo1);
+       ambiente.adicionarMineral(11, 16, "Ametista");
+       ambiente.adicionarMineral(15, 21, "Ferro");
+       ambiente.adicionarMineral(30, 30, "Esmeralda");
 
-        // Movendo o robô
-        robo1.mover(2,9); // Deve se mover para a posição nova, pois não move uma distância maior que sua velocidade máxima (10)
+        while (true) {
+            System.out.println("Deseja adicionar robô?");
+            System.out.println("1. Sim");
+            System.out.println("2. Não");
+            System.out.print("Escolha uma opção: ");
+            int opcao = scanner.nextInt();
+            scanner.nextLine(); // limpar buffer
 
-        // Exibindo a posição do robô
-        robo1.exibirPosicao();
+            if (opcao == 1) {
+                System.out.println("Tipo de robô:");
+                System.out.println("1. Terrestre");
+                System.out.println("2. Aéreo");
+                System.out.print("Escolha: ");
+                int tipo = scanner.nextInt();
+                scanner.nextLine();
 
-        // Verificando se está dentro do ambiente
-        if (ambiente.dentroDosLimites(robo1.retornarX(),robo1.retornarY(), 0)) {
-            System.out.println("O robô está dentro dos limites do ambiente.");
-        } else {
-            System.out.println("O robô está fora dos limites do ambiente.");
+                System.out.print("Nome do robô: ");
+                String nome = scanner.nextLine();
+                System.out.print("Coordenada X: ");
+                int x = scanner.nextInt();
+                System.out.print("Coordenada Y: ");
+                int y = scanner.nextInt();
+                scanner.nextLine(); // limpar buffer
+                System.out.print("Direção: ");
+                String direcao = scanner.nextLine();
+
+                if (tipo == 1) {
+                    System.out.print("Velocidade: ");
+                    int velocidade = scanner.nextInt();
+                    scanner.nextLine(); // limpar buffer
+
+                    System.out.print("Deseja adicionar um complemento? (s/n): ");
+                    String resposta = scanner.nextLine();
+
+                    if (resposta.equalsIgnoreCase("s")) {
+                        System.out.println("Escolha o complemento:");
+                        System.out.println("1. Minerador");
+                        System.out.println("2. Bombardeiro");
+                        int comp = scanner.nextInt();
+                        scanner.nextLine();
+
+                        if (comp == 1) {
+                            System.out.print("Tipo de mineral: ");
+                            String tipoMineral = scanner.nextLine();
+                            RoboMinerador robo = new RoboMinerador(nome, x, y, direcao, velocidade, tipoMineral, ambiente);
+                            ambiente.adicionarRobo(robo);
+                            System.out.println("Robô minerador adicionado!");
+                        } else if (comp == 2) {
+                            System.out.print("Quantidade de bombas: ");
+                            int quantidadeBombas = scanner.nextInt();
+                            RoboBombardeiro robo = new RoboBombardeiro(nome, x, y, direcao, velocidade, quantidadeBombas);
+                            ambiente.adicionarRobo(robo);
+                            System.out.println("Robô bombardeiro adicionado!");
+                        }
+                    } else {
+                        RoboTerrestre robo = new RoboTerrestre(nome, x, y, direcao, velocidade);
+                        ambiente.adicionarRobo(robo);
+                        System.out.println("Robô terrestre adicionado!");
+                    }
+                } else if (tipo == 2) {
+                    System.out.print("Altitude: ");
+                    int altitude = scanner.nextInt();
+                    System.out.print("Altitude máxima: ");
+                    int altitudeMaxima = scanner.nextInt();
+                    scanner.nextLine(); // limpar buffer
+
+                    System.out.print("Deseja adicionar um complemento? (s/n): ");
+                    String resposta = scanner.nextLine();
+
+                    if (resposta.equalsIgnoreCase("s")) {
+                        System.out.println("Escolha o complemento:");
+                        System.out.println("1. Fada");
+                        System.out.println("2. Fantasma");
+                        int comp = scanner.nextInt();
+                        scanner.nextLine();
+
+                        if (comp == 1) {
+                            System.out.print("Cor: ");
+                            String cor = scanner.nextLine();
+                            RoboAereoFada robo = new RoboAereoFada(nome, x, y, direcao, altitude, altitudeMaxima, cor);
+                            ambiente.adicionarRobo(robo);
+                            System.out.println("Robô aéreo fada adicionado!");
+                        } else if (comp == 2) {
+                            RoboAereoFantasma robo = new RoboAereoFantasma(nome, x, y, direcao, altitude, altitudeMaxima);
+                            ambiente.adicionarRobo(robo);
+                            System.out.println("Robô aéreo fantasma adicionado!");
+                        }
+                    } else {
+                        RoboAereo robo = new RoboAereo(nome, x, y, direcao, altitude, altitudeMaxima);
+                        ambiente.adicionarRobo(robo);
+                        System.out.println("Robô aéreo adicionado!");
+                    }
+                } else {
+                    System.out.println("Tipo inválido!");
+                }
+            } else if (opcao == 2) {
+    while (true) {
+        System.out.println("\n--- CONTROLE DE ROBÔS ---");
+        if (ambiente.getRobos().isEmpty()) {
+            System.out.println("Nenhum robô foi adicionado.");
+            break;
         }
 
-        // Saída apenas para separar os robôs
-        System.out.println("-----------------------------------------");
-
-        // Criando um robô bombardeiro (Robô 2)
-
-        RoboBombardeiro robo2 = new RoboBombardeiro("Roberta", 5, 5, "Sul", 7, 2);
-        ambiente.adicionarRobo(robo2);
-
-        // Movendo o robô
-        robo2.mover(3,3); // Deve se mover para a posição nova, pois não move uma distância maior que sua velocidade máxima (7)
-
-        // Exibindo a posição
-        robo2.exibirPosicao();
-
-        //Deve deixar uma bomba em sua nova coordenada, pois possui 2 bombas
-        robo2.deixarBomba();
-
-        // Verificando se está dentro do ambiente
-        if (ambiente.dentroDosLimites(robo2.retornarX(),robo2.retornarY(), 0)) {
-            System.out.println("O robô está dentro dos limites do ambiente.");
-        } else {
-            System.out.println("O robô está fora dos limites do ambiente.");
+        System.out.println("Robôs disponíveis:");
+        for (Robo r : ambiente.getRobos()) {
+            System.out.println("- " + r.retornarNome());
         }
 
-        // Saída apenas para separar os robôs
-        System.out.println("-----------------------------------------");
-
-        // Criando um robô minerador (Robô 3)
-
-        RoboMinerador robo3 = new RoboMinerador("Ronaldo", 10, 15, "Leste", 6, "Ferro", ambiente);
-        ambiente.adicionarRobo(robo3);
-
-        // Movendo o robô
-        robo3.mover(1,1); // Deve se mover para a posição nova, pois não move uma distância maior que sua velocidade máxima (6)
-
-        // Exibindo a posição
-        robo3.exibirPosicao();
-
-        // Tentando minerar
-        robo3.minerar(); // Deve minerar, pois
-        // Verificando se está dentro do ambiente
-        if (ambiente.dentroDosLimites(robo3.retornarX(),robo3.retornarY(), 0)) {
-            System.out.println("O robô está dentro dos limites do ambiente.");
-        } else {
-            System.out.println("O robô está fora dos limites do ambiente.");
+        System.out.print("Digite o nome do robô para controlar (ou 'sair' para encerrar): ");
+        String nomeControle = scanner.nextLine();
+        if (nomeControle.equalsIgnoreCase("sair")) {
+            break;
         }
 
-        // Movendo o robô novamente
-        robo3.mover(4,5); //deve se mover para a posição nova, pois não move uma distância maior que sua velocidade máxima (6)
-
-        // Exibindo a posição
-        robo3.exibirPosicao();
-        
-        // Tentando minerar
-        robo3.minerar(); // Deve minerar, pois encontrou ferro em sua coordenada
-
-        // Verificando se está dentro do ambiente
-        if (ambiente.dentroDosLimites(robo3.retornarX(),robo3.retornarY(), 0)) {
-            System.out.println("O robô está dentro dos limites do ambiente.");
-        } else {
-            System.out.println("O robô está fora dos limites do ambiente.");
+        Robo robo = ambiente.getRoboPorNome(nomeControle);
+        if (robo == null) {
+            System.out.println("Robô não encontrado.");
+            continue;
         }
 
-        // Saída apenas para separar os robôs
-        System.out.println("-----------------------------------------");
+        System.out.println("Comandos disponíveis:");
+        System.out.println("1. Mover");
 
-        // Criando um robô aéreo (Robô 4)
+        if (robo instanceof RoboAereo) {
+            System.out.println("2. Subir");
+            System.out.println("3. Descer");
+        }
+        if (robo instanceof RoboBombardeiro) {
+            System.out.println("4. Deixar bomba");
+        }
+        if (robo instanceof RoboMinerador) {
+            System.out.println("5. Minerar");
+        }
+        if (robo instanceof RoboAereoFada) {
+            System.out.println("6. Mudar cor");
+            System.out.println("7. Brilhar");
+        }
+        if (robo instanceof RoboAereoFantasma) {
+            System.out.println("8. Identificar obstáculo");
+        }
 
-        RoboAereo robo4 = new RoboAereo("Airton", 30, 30, "Oeste",10,80);
-        ambiente.adicionarRobo(robo4);
+        System.out.print("Escolha o comando: ");
+        int cmd = scanner.nextInt();
+        scanner.nextLine();
 
-        //Subindo o robô
-        robo4.subir(10); //Deve ir para a altitude 10 + 10 (pois não ultrapassa a altitude máxima (80))
+        switch (cmd) {
+            case 1:
+                System.out.print("Nova coordenada X: ");
+                int mx = scanner.nextInt();
+                System.out.print("Nova coordenada Y: ");
+                int my = scanner.nextInt();
+                robo.mover(mx, my);
+                robo.exibirPosicao();                
+                break;
+            case 2:
+                if (robo instanceof RoboAereo) {
+                    System.out.print("Valor para subir: ");
+                    int subir = scanner.nextInt();
+                    ((RoboAereo) robo).subir(subir);
+                    robo.exibirPosicao();
+                }
+                break;
+            case 3:
+                if (robo instanceof RoboAereo) {
+                    System.out.print("Valor para descer: ");
+                    int descer = scanner.nextInt();
+                    ((RoboAereo) robo).descer(descer);
+                    robo.exibirPosicao();
+                }
+                break;
+            case 4:
+                if (robo instanceof RoboBombardeiro) {
+                    ((RoboBombardeiro) robo).deixarBomba();
+                }
+                break;
+            case 5:
+                if (robo instanceof RoboMinerador) {
+                    ((RoboMinerador) robo).minerar();
+                }
+                break;
+            case 6:
+                if (robo instanceof RoboAereoFada) {
+                    System.out.print("Nova cor: ");
+                    String cor = scanner.nextLine();
+                    ((RoboAereoFada) robo).mudarCor(cor);
+                }
+                break;
+            case 7:
+                if (robo instanceof RoboAereoFada) {
+                    ((RoboAereoFada) robo).brilhar();
+                }
+                break;
+            case 8:
+                if (robo instanceof RoboAereoFantasma) {
+                    System.out.print("Nome do robô a verificar como obstáculo: ");
+                    String nomeObs = scanner.nextLine();
+                    Robo alvo = ambiente.getRoboPorNome(nomeObs);
+                    if (alvo != null) {
+                        ((RoboAereoFantasma) robo).identificarObstaculo(alvo);
+                    } else {
+                        System.out.println("Robô não encontrado.");
+                    }
+                }
+                break;
+            default:
+                System.out.println("Comando inválido.");
+        }
+    }
 
-        //Movendo o robô no eixo (X,Y)
-        robo4.mover(2,2);
+    System.out.println("Encerrando...");
+    break;
+} else {
+                System.out.println("Opção inválida!");
+            }
 
-        // Exibindo a posição
-        robo4.exibirPosicao();
+            System.out.println(); // espaço entre interações
+        }
 
-        //Descendo o robô
-        robo4.descer(5);
-  
-        // Exibindo a posição
-        robo4.exibirPosicao();
-
-        // Saída apenas para separar os robôs
-        System.out.println("-----------------------------------------");
-
-        // Criando um robô fantasma (Robô 5)
-
-        RoboAereoFantasma robo5 = new RoboAereoFantasma("Gasparzinho", 52, 53, "Sul", 25, 50);
-        ambiente.adicionarRobo(robo5);
-
-        //Subindo o robô
-        robo5.subir(30); //Deve ir para a altitude máxima (50), pois se não, iria ultrapassar
-        
-        //Movendo o robô no eixo (X,Y)
-        robo5.mover(3,3);
-
-        // Exibindo a posição
-        robo5.exibirPosicao();
-
-        robo5.identificarObstaculo(robo1); //Não deve identificar obstáculo nenhum, pois é um fantasma (ultrapassa os obstáculos)
-
-        // Saída apenas para separar os robôs
-        System.out.println("-----------------------------------------");
-
-        // Criando um robô fada (Robô 6)
-
-        RoboAereoFada robo6 = new RoboAereoFada("Oyara", 70, 70, "Norte", 30, 100, "Rosa"); //cria o robo aereo fada e testa seus comandos
-        ambiente.adicionarRobo(robo6);
-
-        // Exibindo a posição (e a cor atual)
-        robo6.exibirPosicao();
-
-        // Mudando a cor do brilho
-        robo6.mudarCor("Azul");
-
-        //Movendo a fada no eixo (X,Y)
-        robo6.mover(4,4);
-
-        //Movendo a fada no eixo Z 
-        robo6.subir(5);
-
-        // Exibindo a posição (e a cor atual)
-        robo6.exibirPosicao();
-
-        // Mudando a cor do brilho
-        robo6.mudarCor("Vermelho");
-
-        // Exibindo a cor atual do brilho
-        robo6.brilhar();
-
-
-
-
+        scanner.close();
     }
 }

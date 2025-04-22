@@ -19,7 +19,7 @@ public class SensorQuenteFrio extends Sensor {
 
             TipoObstaculo tipo = obstaculo.getTipo();
 
-            if (distancia <= raio) {
+            if (distancia <= raio) { //verifica a temperatura dos objetivos no raio do sensor
                 if (tipo.isEhquente()) {
                     System.out.printf("Temperatura = Quente. %s detectado a uma distância de %.2f cm.%n", tipo.name(), distancia);
                     detectouTemperatura = true;
