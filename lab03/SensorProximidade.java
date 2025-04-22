@@ -8,7 +8,7 @@ public class SensorProximidade extends Sensor{
         int yrobo = robo.retornarY();
         boolean encontrou = false;
 
-        for (Robo outro : ambiente.getRobosnoespaco()){ //percorre a lista de robos
+        for (Robo outro : ambiente.getRobos()){ //percorre a lista de robos
             if (outro != robo && !(outro instanceof RoboAereoFantasma)){ //verifica se o robo nao é ele mesmo, robos fantasmas tambem nao sao identificados
                 int xoutro = outro.retornarX();
                 int youtro = outro.retornarY();
