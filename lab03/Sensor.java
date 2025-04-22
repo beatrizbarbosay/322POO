@@ -10,3 +10,4 @@ public abstract class Sensor {
     }
 
     public abstract void monitorar(Robo robo, Ambiente ambiente);
+}
