@@ -1,4 +1,4 @@
-public class SensorProximidade extends Sensor{
+public class SensorProximidade extends Sensor{ //esse sensor identifica outros robos e outros obstaculos em seu raio, nao identifica robos fantasmas
     public SensorProximidade(double raio){
         super(raio);
     }
