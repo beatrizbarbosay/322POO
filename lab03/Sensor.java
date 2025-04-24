@@ -1,7 +1,7 @@
-public abstract class Sensor {
+public abstract class Sensor { 
     protected double raio;
 
-    public Sensor(double raio) {
+    public Sensor(double raio) { 
         this.raio = raio;
     }
 
@@ -9,5 +9,5 @@ public abstract class Sensor {
         return raio;
     }
 
-    public abstract void monitorar(Robo robo, Ambiente ambiente);
+    public abstract void monitorar(Robo robo, Ambiente ambiente); //para acionar os sensores
 }

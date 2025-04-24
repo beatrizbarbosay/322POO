@@ -1,4 +1,4 @@
-public enum TipoObstaculo{
+public enum TipoObstaculo{ //tipos de obstaculos possiveis no ambiente
     Parede(3, true, false, false),
     Arvore(5, true, false, false),
     Predio(10, true, false, false),
@@ -10,7 +10,7 @@ public enum TipoObstaculo{
 
     private final int alturaPadrao;
     private final boolean bloqueiaPassagem;
-    private final boolean ehquente;
+    private final boolean ehquente; //essas caracteristicas serao usadas pelo sensor de temperatura
     private final boolean ehfrio;
 
     TipoObstaculo(int alturaPadrao, boolean bloqueiaPassagem, boolean ehquente, boolean ehfrio) {
