@@ -64,7 +64,7 @@ O projeto é dividido em laboratórios acumulativos, onde cada etapa adiciona no
 
 
 ### Diagrama de Classes
-![Diagrama de Classes](diagrama_classes.png)
+![Diagrama de Classes](Diagrama_Classes.png)
 
 ### Descrição
 
