@@ -1,6 +1,6 @@
 public class Obstaculo {
     private int x;
-    private int y; //nao vou colocar altura aqui porque a altura ja esta no enum
+    private int y;
     private int x2;
     private int y2;
     private TipoObstaculo tipo;

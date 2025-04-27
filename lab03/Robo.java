@@ -1,14 +1,13 @@
 // Classe base para todos os robôs
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Robo {
     private String nome; // Nome do robô
     private int posicaoX; // Posição X do robô no ambiente
     private int posicaoY; // Posição Y do robô no ambiente
     private String direcao; // Direção atual do robô (Norte, Sul, Leste, Oeste)
-    private List<Sensor> sensores;
+    protected ArrayList<Sensor> sensores;
     // Construtor da classe Robo
     public Robo(String n, int x, int y, String d) {
         nome = n;  // Inicializa o nome do robô
@@ -22,6 +21,10 @@ public class Robo {
     public void mover(int deltaX, int deltaY) {
         posicaoX += deltaX; // Atualiza a posição X
         posicaoY += deltaY; // Atualiza a posição Y
+    }
+    
+    public ArrayList<Sensor> getSensores() {
+        return sensores;
     }
 
     // Método para adicionar um sensor ao robô

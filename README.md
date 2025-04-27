@@ -40,7 +40,6 @@ O projeto é dividido em laboratórios acumulativos, onde cada etapa adiciona no
 - Implementação da classe `Sensor` e subclasses:
   - `SensorProximidade`, `SensorQuenteFrio`
 - Criação de menu interativo para:
-  - Adicionar os robôs no ambiente.
   - Visualizar status dos robôs.
   - Controlar movimentações e ações dos robôs.
   - Acionar sensores.
