@@ -3,6 +3,10 @@ public class SensorProximidade extends Sensor{ //esse sensor identifica outros r
         super(raio);
     }
     @Override
+
+    public String getTipoSensor() {
+        return "Sensor de Proximidade";
+    }
     public void monitorar(Robo robo, Ambiente ambiente){
         int xrobo = robo.retornarX();
         int yrobo = robo.retornarY();

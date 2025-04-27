@@ -5,6 +5,10 @@ public class SensorQuenteFrio extends Sensor {
     }
 
     @Override
+    public String getTipoSensor() {
+        return "Sensor de Temperatura";
+    }
+    
     public void monitorar(Robo robo, Ambiente ambiente) {
         int xrobo = robo.retornarX();
         int yrobo = robo.retornarY();
