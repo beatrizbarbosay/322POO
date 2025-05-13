@@ -2,12 +2,14 @@
 
 import java.util.ArrayList;
 
-public class Robo {
+public class Robo implements Entidade{
     private String nome; // Nome do robô
     private int posicaoX; // Posição X do robô no ambiente
     private int posicaoY; // Posição Y do robô no ambiente
+    private int posicaoZ = 0; // Posição Z do robô no ambiente
     private String direcao; // Direção atual do robô (Norte, Sul, Leste, Oeste)
     protected ArrayList<Sensor> sensores;
+
     // Construtor da classe Robo
     public Robo(String n, int x, int y, String d) {
         nome = n;  // Inicializa o nome do robô
@@ -63,5 +65,37 @@ public class Robo {
             System.out.println("Robô " + retornarNome() + " detectou um obstáculo na posição (" + outroRobo.retornarX() + ", " + outroRobo.retornarY() + ")");
         }
     }
-    
+
+    // Métodos da interface Entidade
+
+    @Override
+    public int getX() {
+        return posicaoX;
+    }
+
+    @Override
+    public int getY() {
+        return posicaoY;
+    }
+
+    @Override
+    public int getZ() {
+        return posicaoZ;
+    }
+
+    @Override
+    public TipoEntidade getTipo() {
+        return TipoEntidade.ROBO;
+    }
+
+    @Override
+    public String getDescricao() {
+        return "Robô " + nome;
+    }
+
+    @Override
+    public char getRepresentacao() {
+        return 'R';
+    }
+
 }

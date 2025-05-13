@@ -21,7 +21,7 @@ public class SensorQuenteFrio extends Sensor {
 
             double distancia = Math.sqrt(Math.pow(xrobo - xobstaculo, 2) + Math.pow(yrobo - yobstaculo, 2)); //calcula a distancia ao sensor do robo
 
-            TipoObstaculo tipo = obstaculo.getTipo();
+            TipoObstaculo tipo = obstaculo.getTipoObstaculo();
 
             if (distancia <= raio) { //verifica a temperatura dos objetivos no raio do sensor
                 if (tipo.isEhquente()) {

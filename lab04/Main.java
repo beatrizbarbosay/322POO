@@ -13,23 +13,23 @@ public class Main {
        ambiente.adicionarMineral(30, 30, "Esmeralda");
 
        // Adicionando obstáculos ao ambiente
-        Obstaculo o1 = new Obstaculo(2, 3, 4, 3, TipoObstaculo.Fogo);
-        ambiente.adicionarObstaculo(o1);
+        Obstaculo o1 = new Obstaculo(2, 3, 0, TipoObstaculo.Fogo);
+        ambiente.adicionarEntidade(o1);
 
-        Obstaculo o2 = new Obstaculo(15, 15, 15, 20, TipoObstaculo.Cachoeira);
-        ambiente.adicionarObstaculo(o2);
+        Obstaculo o2 = new Obstaculo(15, 15, 0, TipoObstaculo.Cachoeira);
+        ambiente.adicionarEntidade(o2);
 
-        Obstaculo o3 = new Obstaculo(30, 30, 30, 25, TipoObstaculo.Arvore);
-        ambiente.adicionarObstaculo(o3);
+        Obstaculo o3 = new Obstaculo(30, 25, 0, TipoObstaculo.Arvore);
+        ambiente.adicionarEntidade(o3);
 
-        Obstaculo o4 = new Obstaculo(50, 55, 60, 65, TipoObstaculo.Parede);
-        ambiente.adicionarObstaculo(o4);
+        Obstaculo o4 = new Obstaculo(50, 55, 0, TipoObstaculo.Parede);
+        ambiente.adicionarEntidade(o4);
 
         // Adicionando os robôs ao ambiente
 
         // Criando robô terrestre com seu nome, coordenada X e Y, direção e velocidade máxima
         RoboTerrestre robo1 = new RoboTerrestre("Robson", 3, 22, "Norte", 10);
-        ambiente.adicionarRobo(robo1);
+        ambiente.adicionarEntidade(robo1);
         // Acoplando sensores de temperatura e de proximidade ao robô e definindo seus raios
         SensorQuenteFrio sensor1 = new SensorQuenteFrio(10);
         robo1.adicionarSensor(sensor1);
@@ -37,14 +37,14 @@ public class Main {
 
         // Criando robô bombardeiro com seu nome, coordenada X e Y, direção, velocidade máxima e quantidade de bombas
         RoboBombardeiro robo2 = new RoboBombardeiro("Roberta", 5, 5, "Sul", 7, 2);
-        ambiente.adicionarRobo(robo2);
+        ambiente.adicionarEntidade(robo2);
         // Acoplando sensor de proximidade ao robô e definindo seu raio
         SensorProximidade sensor2 = new SensorProximidade(15);
         robo2.adicionarSensor(sensor2);
 
         // Criando robô minerador com seu nome, coordenada X e Y, direção, velocidade máxima e tipod de mineral
         RoboMinerador robo3 = new RoboMinerador("Ronaldo", 10, 15, "Leste", 6, "Ferro", ambiente);
-        ambiente.adicionarRobo(robo3);
+        ambiente.adicionarEntidade(robo3);
         // Acoplando sensores de proximidade e temperatura ao robô e definindo seus raios
         SensorProximidade sensor3 = new SensorProximidade(5);
         robo3.adicionarSensor(sensor3);
@@ -52,21 +52,21 @@ public class Main {
 
         // Criando robô aéreo com seu nome, coordenada X e Y, direção, altitude e altitude máxima
         RoboAereo robo4 = new RoboAereo("Airton", 30, 30, "Oeste", 10, 80);
-        ambiente.adicionarRobo(robo4);
+        ambiente.adicionarEntidade(robo4);
         // Acoplando sensor de temperatura ao robô e definindo seu raio
         SensorQuenteFrio sensor4 = new SensorQuenteFrio(30);
         robo4.adicionarSensor(sensor4);
 
         // Criando robô aéreo fantasma com seu nome, coordenada X e Y, direção, altitude e altitude máxima
         RoboAereoFantasma robo5 = new RoboAereoFantasma("Gasparzinho", 52, 53, "Sul", 25, 50);
-        ambiente.adicionarRobo(robo5);
+        ambiente.adicionarEntidade(robo5);
         // Acoplando sensor de temperatura ao robô e definindo seu raio
         SensorQuenteFrio sensor5 = new SensorQuenteFrio(12);
         robo5.adicionarSensor(sensor5);
 
         // Criando robô aéreo fada com seu nome, coordenada X e Y, direção, altitude, altitude máxima e cor atual
         RoboAereoFada robo6 = new RoboAereoFada("Oyara", 70, 70, "Norte", 30, 100, "Rosa");
-        ambiente.adicionarRobo(robo6);
+        ambiente.adicionarEntidade(robo6);
         // Acoplando sensores de proximidade e temperatura ao robô e definindo seus raios
         SensorProximidade sensor6 = new SensorProximidade(6);
         robo6.adicionarSensor(sensor6);
