@@ -53,5 +53,11 @@ public class RoboAereo extends Robo{
             System.out.println("Robo " + retornarNome() + " detectou um obstáculo na posição (" + outroRobo.retornarX() + ", " + outroRobo.retornarY() + ")");
         }
     }
-    
+
+    // Override da interface Entidade 
+
+    @Override
+    public int getZ() {
+        return altitude; // Retorna a altitude na interface entidade (para robôs aéreos com z != 0)
+    }
 }
