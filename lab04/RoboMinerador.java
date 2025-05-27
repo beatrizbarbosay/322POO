@@ -1,6 +1,6 @@
 // Classe que herda de RoboTerrestre e representa um robô minerador
 import java.util.ArrayList;
-class RoboMinerador extends RoboTerrestre implements Sensoreavel, Memorizavel {
+class RoboMinerador extends RoboTerrestre implements Sensoreavel, Memorizavel, Comunicavel {
     private String tipoMineral; // Tipo de mineral que o robô minerador está buscando
     private Ambiente ambiente; // Ambiente onde o robô minerador está
     private ArrayList<String> memoria = new ArrayList<>(); // Memória do robô minerador
@@ -34,6 +34,23 @@ class RoboMinerador extends RoboTerrestre implements Sensoreavel, Memorizavel {
         for (String dado : memoria) {
             System.out.println(" - " + dado);
         }
+    }
+    @Override
+    public void enviarMensagem(String mensagem, Robo destinatario) {
+        System.out.println("Robo Fantasma " + retornarNome() + " enviou a mensagem: " + mensagem + " para " + destinatario.retornarNome());
+    }
+
+    @Override
+    public void receberMensagem(String mensagem, Robo remetente) {
+        System.out.println("Robo Fantasma " + retornarNome() + " recebeu a mensagem: " + mensagem + " de " + remetente.retornarNome());
+    }
+
+    @Override
+    public void comunicar(String mensagem, CentralComunicacao central, Robo receptor) {
+        if (!(receptor instanceof Comunicavel)) {
+            throw new ErroComunicacaoException("Erro: o robô " + receptor.retornarNome() + " não é capaz de se comunicar!");
+        }
+    central.registrarMensagem(this.retornarNome(), mensagem);
     }
 }
  

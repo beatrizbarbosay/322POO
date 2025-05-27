@@ -3,3 +3,4 @@ public class ColisaoException extends Exception {
         super(mensagem);
     }
 }
+

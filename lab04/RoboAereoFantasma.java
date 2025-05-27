@@ -20,4 +20,18 @@ public class RoboAereoFantasma extends RoboAereo implements Comunicavel{
     public void receberMensagem(String mensagem, Robo remetente) {
         System.out.println("Robo Fantasma " + retornarNome() + " recebeu a mensagem: " + mensagem + " de " + remetente.retornarNome());
     }
+
+    @Override
+    public void comunicar(String mensagem, CentralComunicacao central, Robo receptor) {
+    if (!(receptor instanceof Comunicavel)) {
+        throw new ErroComunicacaoException("Erro: o robô " + receptor.retornarNome() + " não é capaz de se comunicar!");
+    }
+    central.registrarMensagem(this.retornarNome(), mensagem);
+    }
+
+    public void atacar(int x, int y, Ambiente ambiente) throws AcaoNaoPermitidaException {
+        throw new AcaoNaoPermitidaException("Robô fantasma não pode atacar!");
+    }
+    
+
 }

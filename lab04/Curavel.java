@@ -1,4 +1,4 @@
 
 public interface Curavel {
-    void curar(Robo alvo);
+    void curar(Robo alvo) throws EnergiaCuraException;
 }
