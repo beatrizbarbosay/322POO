@@ -1,5 +1,5 @@
 
 public interface Atacante {
-    void atacar(int x, int y, Ambiente ambiente);
+    void atacar(int x, int y, Ambiente ambiente) throws SobreCargaExplosivaException;
 }
 

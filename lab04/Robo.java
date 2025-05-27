@@ -9,6 +9,7 @@ public class Robo implements Entidade{
     private int posicaoZ = 0; // Posição Z do robô no ambiente
     private String direcao; // Direção atual do robô (Norte, Sul, Leste, Oeste)
     protected ArrayList<Sensor> sensores;
+    private boolean ligado;
 
     // Construtor da classe Robo
     public Robo(String n, int x, int y, String d) {
@@ -17,36 +18,14 @@ public class Robo implements Entidade{
         posicaoY = y;  // Inicializa a posição Y
         direcao = d;  // Inicializa a direção
         sensores = new ArrayList<>(); // Inicializa a lista de sensores
+        ligado = true; // O robô começa ligado
     }
 
     // Método para mover o robô para uma nova posição
-    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws ColisaoException, ForaDosLimitesException {
-        int novoX = posicaoX + deltaX;
-        int novoY = posicaoY + deltaY;
-        int z = posicaoZ;
+    public void mover(int deltaX, int deltaY) {
+        posicaoX += deltaX; // Atualiza a posição X
+        posicaoY += deltaY; // Atualiza a posição Y
 
-        ambiente.dentroDosLimites(novoX, novoY, z);
-
-        boolean colidiu = false;
-        String tipo = "";
-
-        for (Entidade e : ambiente.getEntidades()) {
-            if (e.getX() == novoX && e.getY() == novoY && e.getZ() == z) {
-                colidiu = true;
-                tipo = (e instanceof Robo) ? "robô" : "obstáculo";
-                ambiente.registrarColisao(novoX, novoY, z);
-                break;
-            }
-        }
-
-        // Sempre atualiza a posição (mesmo se houver colisão)
-        posicaoX = novoX;
-        posicaoY = novoY;
-
-        // Se houve colisão, lança exceção depois
-        if (colidiu) {
-            throw new ColisaoException("Colisão detectada com " + tipo + " na posição (" + novoX + ", " + novoY + ", " + z + ").");
-        }
     }
     
     public ArrayList<Sensor> getSensores() {
@@ -71,9 +50,6 @@ public class Robo implements Entidade{
     public int retornarY() {
         return posicaoY;
     }
-    public int retornarZ() {
-        return posicaoZ;
-    }
     public String retornarNome() {
         return nome;
     }
@@ -81,7 +57,7 @@ public class Robo implements Entidade{
     
     // Método para exibir a posição do robô no ambiente
     public void exibirPosicao() {
-        System.out.println("Robô " + nome + " está na posição (" + posicaoX + ", " + posicaoY + ", " + posicaoZ + ")");
+        System.out.println("Robô " + nome + " está na posição (" + posicaoX + ", " + posicaoY + ")");
     }
 
     //identifica outros robos como obstáculos, exceto se for um robô fantasma
@@ -92,6 +68,21 @@ public class Robo implements Entidade{
             System.out.println("Robô " + retornarNome() + " detectou um obstáculo na posição (" + outroRobo.retornarX() + ", " + outroRobo.retornarY() + ")");
         }
     }
+
+    public void ligar() {
+        ligado = true;
+        System.out.println("Robô " + nome + " foi ligado.");
+    }
+    
+    public void desligar() {
+        ligado = false;
+        System.out.println("Robô " + nome + " foi desligado.");
+    }
+    
+    public boolean estaLigado() {
+        return ligado;
+    }
+    
 
     // Métodos da interface Entidade
 
@@ -125,4 +116,10 @@ public class Robo implements Entidade{
         return 'R';
     }
 
+    // Método para verificar colisão com outro robô
+    public void verificarColisao(Robo outro) throws ColisaoException {
+        if (this.retornarX() == outro.retornarX() && this.retornarY() == outro.retornarY()) {
+            throw new ColisaoException("O robô " + this.retornarNome() + " colidiu com " + outro.retornarNome());
+        }
+    }
 }
