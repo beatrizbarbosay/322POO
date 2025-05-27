@@ -1,6 +1,6 @@
 // Classe que herda de RoboTerrestre e representa um robô bombardeiro
 
-class RoboBombardeiro extends RoboTerrestre {
+class RoboBombardeiro extends RoboTerrestre implements Sensoreavel, Atacante {
     private int quantidadeBombas; // Quantidade de bombas que o robô possui
 
     // Construtor que recebe o nome, posição, direção, velocidade e quantidade de bombas
@@ -19,4 +19,19 @@ class RoboBombardeiro extends RoboTerrestre {
             System.out.println("Robô " + retornarNome() + " está sem bombas");
         }
     }
+    @Override
+    public void atacar(int x, int y, Ambiente ambiente) {
+        System.out.println("Robô " + retornarNome() + " lançou um ataque na posição (" + x + ", " + y + ")!");
+
+        // Verifica se há algum robô naquela posição
+        for (Robo robo : ambiente.getRobos()) {
+            if (robo.retornarX() == x && robo.retornarY() == y) {
+                if (robo != this) {
+                    System.out.println("Robô " + retornarNome() + " atingiu o robô " + robo.retornarNome() + "!");
+                    // Aqui você poderia implementar um método no robô para ser danificado, por exemplo.
+                }
+            }
+        }
+    }
+        
 }
