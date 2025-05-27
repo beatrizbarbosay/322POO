@@ -1,5 +1,5 @@
 // Classe que herda de RoboAereo e representa um robô fada que muda de cor
-public class RoboAereoFada extends RoboAereo {
+public class RoboAereoFada extends RoboAereo implements Sensoreavel, Curavel {
     private String corBrilho; //Cor atual
     
     // Construtor que recebe o nome, posição, direção, altitude e a cor
@@ -25,6 +25,10 @@ public class RoboAereoFada extends RoboAereo {
         super.exibirPosicao();
         brilhar();
     }
-
+    @Override
+    public void curar(Robo robo) {
+        System.out.println("Robo Fada" + this.retornarNome() + " está curando o robô " + robo.retornarNome());
+    }
+    
     
 }

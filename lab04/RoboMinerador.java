@@ -1,7 +1,9 @@
 // Classe que herda de RoboTerrestre e representa um robô minerador
-class RoboMinerador extends RoboTerrestre {
+import java.util.ArrayList;
+class RoboMinerador extends RoboTerrestre implements Sensoreavel, Memorizavel {
     private String tipoMineral; // Tipo de mineral que o robô minerador está buscando
     private Ambiente ambiente; // Ambiente onde o robô minerador está
+    private ArrayList<String> memoria = new ArrayList<>(); // Memória do robô minerador
 
     // Construtor que recebe o nome, posição, direção, velocidade, tipo de mineral e o ambiente
     public RoboMinerador(String n, int x, int y, String d, int v, String m, Ambiente ambiente) {
@@ -20,4 +22,18 @@ class RoboMinerador extends RoboTerrestre {
             System.out.println("Robo " + retornarNome() + " não encontrou " + tipoMineral + " para minerar na posição (" + retornarX() + ", " + retornarY() + ")");
         }
     }
+    @Override
+    public void memorizar(String evento, int x, int y) {
+        String registro = "Evento: " + evento + " na posição (" + x + ", " + y + ")";
+        memoria.add(registro);
+        System.out.println("Robo " + this.retornarNome() + " memorizou: " + registro);
+    }
+
+    public void exibirMemoria() {
+        System.out.println("Memória do robô " + this.retornarNome() + ":");
+        for (String dado : memoria) {
+            System.out.println(" - " + dado);
+        }
+    }
 }
+ 
