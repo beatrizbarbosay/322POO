@@ -20,9 +20,33 @@ public class Robo implements Entidade{
     }
 
     // Método para mover o robô para uma nova posição
-    public void mover(int deltaX, int deltaY) {
-        posicaoX += deltaX; // Atualiza a posição X
-        posicaoY += deltaY; // Atualiza a posição Y
+    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws ColisaoException, ForaDosLimitesException {
+        int novoX = posicaoX + deltaX;
+        int novoY = posicaoY + deltaY;
+        int z = posicaoZ;
+
+        ambiente.dentroDosLimites(novoX, novoY, z);
+
+        boolean colidiu = false;
+        String tipo = "";
+
+        for (Entidade e : ambiente.getEntidades()) {
+            if (e.getX() == novoX && e.getY() == novoY && e.getZ() == z) {
+                colidiu = true;
+                tipo = (e instanceof Robo) ? "robô" : "obstáculo";
+                ambiente.registrarColisao(novoX, novoY, z);
+                break;
+            }
+        }
+
+        // Sempre atualiza a posição (mesmo se houver colisão)
+        posicaoX = novoX;
+        posicaoY = novoY;
+
+        // Se houve colisão, lança exceção depois
+        if (colidiu) {
+            throw new ColisaoException("Colisão detectada com " + tipo + " na posição (" + novoX + ", " + novoY + ", " + z + ").");
+        }
     }
     
     public ArrayList<Sensor> getSensores() {
@@ -47,6 +71,9 @@ public class Robo implements Entidade{
     public int retornarY() {
         return posicaoY;
     }
+    public int retornarZ() {
+        return posicaoZ;
+    }
     public String retornarNome() {
         return nome;
     }
@@ -54,7 +81,7 @@ public class Robo implements Entidade{
     
     // Método para exibir a posição do robô no ambiente
     public void exibirPosicao() {
-        System.out.println("Robô " + nome + " está na posição (" + posicaoX + ", " + posicaoY + ")");
+        System.out.println("Robô " + nome + " está na posição (" + posicaoX + ", " + posicaoY + ", " + posicaoZ + ")");
     }
 
     //identifica outros robos como obstáculos, exceto se for um robô fantasma

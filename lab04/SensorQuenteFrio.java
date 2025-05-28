@@ -12,6 +12,10 @@ public class SensorQuenteFrio extends Sensor {
     public void monitorar(Robo robo, Ambiente ambiente) {
         int xrobo = robo.retornarX();
         int yrobo = robo.retornarY();
+        int z = 0;
+        if (robo instanceof RoboAereo) {
+            z = ((RoboAereo) robo).getAltitude();
+        }
 
         boolean detectouTemperatura = false;
 
