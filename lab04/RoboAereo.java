@@ -35,6 +35,10 @@ public class RoboAereo extends Robo{
         return altitude;
     }
 
+    public int retornarZ(){ //
+        return altitude;
+    }
+
     //Retorna a altitude máxima
     public int getAltitudeMax(){
         return altitudemax;

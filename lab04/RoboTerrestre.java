@@ -15,11 +15,11 @@ public class RoboTerrestre extends Robo {
 
      // Método sobrescrito para mover o robô terrestre
     @Override
-    public void mover(int deltaX, int deltaY) {
-        if (Math.abs(deltaX) <= velocidadeMaxima && Math.abs(deltaY) <= velocidadeMaxima) {
-            super.mover(deltaX, deltaY); // O robô só move se a distância X e Y a ser percorrida for menor do que a velocidade máxima
+    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws ColisaoException, ForaDosLimitesException {
+        if (Math.abs(deltaX) + Math.abs(deltaY) <= velocidadeMaxima) {
+            super.mover(deltaX, deltaY, ambiente);
         } else {
-            System.out.println("Velocidade máxima excedida");
+            System.out.println("Movimento excede a velocidade máxima!");
         }
     }
 }

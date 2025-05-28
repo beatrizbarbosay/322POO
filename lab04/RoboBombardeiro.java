@@ -23,15 +23,14 @@ class RoboBombardeiro extends RoboTerrestre implements Sensoreavel, Atacante {
     public void atacar(int x, int y, Ambiente ambiente) {
         System.out.println("Robô " + retornarNome() + " lançou um ataque na posição (" + x + ", " + y + ")!");
 
-        // Verifica se há algum robô naquela posição
-        for (Robo robo : ambiente.getRobos()) {
-            if (robo.retornarX() == x && robo.retornarY() == y) {
-                if (robo != this) {
-                    System.out.println("Robô " + retornarNome() + " atingiu o robô " + robo.retornarNome() + "!");
-                    // Aqui você poderia implementar um método no robô para ser danificado, por exemplo.
+        for (Entidade entidade : ambiente.getEntidades()) {
+            if (entidade instanceof Robo roboAlvo) {
+                if (roboAlvo != this && roboAlvo.retornarX() == x && roboAlvo.retornarY() == y && roboAlvo.getZ() == this.getZ()) {
+                    System.out.println("Robô " + retornarNome() + " atingiu o robô " + roboAlvo.retornarNome() + "!");
+                    // Aqui você poderia implementar uma lógica para 'danificar' ou 'remover' o robô, se necessário
                 }
             }
         }
     }
-        
+            
 }
