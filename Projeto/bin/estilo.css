@@ -1,0 +1,80 @@
+/* Raiz da aplicação */
+.root {
+    -fx-font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    -fx-background-color: #2c3e50;
+    -fx-text-fill: #ecf0f1;
+}
+
+/* Labels */
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #ecf0f1;
+    -fx-font-weight: bold;
+}
+
+/* TextFields e PasswordFields */
+.text-field, .password-field {
+    -fx-background-color: #34495e;
+    -fx-text-fill: #ecf0f1;
+    -fx-prompt-text-fill: #95a5a6;
+    -fx-border-color: #2980b9;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 6 10 6 10;
+    -fx-font-size: 14px;
+}
+
+/* Botões */
+.button {
+    -fx-background-color: #2980b9;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.3) , 2, 0.0 , 0 , 1 );
+}
+
+.button:hover {
+    -fx-background-color: #3498db;
+}
+
+.button:pressed {
+    -fx-background-color: #1f618d;
+}
+
+/* Hyperlink para cadastro */
+.hyperlink {
+    -fx-text-fill: #3498db;
+    -fx-font-size: 13px;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #2980b9;
+    -fx-underline: true;
+}
+
+/* Títulos (ex: título da tela) */
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ecf0f1;
+    -fx-padding: 0 0 20 0;
+}
+
+/* Painéis */
+.vbox, .hbox {
+    -fx-spacing: 10;
+    -fx-padding: 20;
+}
+
+/* Alerts */
+.dialog-pane {
+    -fx-background-color: #34495e;
+    -fx-text-fill: #ecf0f1;
+}
+
+.check-box {
+    -fx-text-fill: #d8d9e7;
+}
