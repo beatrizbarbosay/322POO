@@ -2,6 +2,7 @@
 .root {
     -fx-font-family: 'Segoe UI', Arial, sans-serif;
     -fx-base: #3498db;
+    -fx-background-color: #f9f9f9;
 }
 
 /* Painéis */
@@ -18,6 +19,11 @@
 }
 
 /* Textos */
+.label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #ffffff;
+}
+
 .titulo-principal {
     -fx-font-size: 32px;
     -fx-font-weight: bold;
@@ -38,7 +44,33 @@
     -fx-font-style: italic;
 }
 
+/* Campos de entrada */
+.text-field, .password-field, .combo-box, .check-box {
+    -fx-font-size: 15px;
+    -fx-padding: 8px;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
 /* Botões */
+.button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: #2980b9;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 8, 0, 0, 4);
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #3498db;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 6);
+}
+
+/* Botões Grandes Específicos */
 .botao-grande {
     -fx-font-size: 24px;
     -fx-font-weight: bold;
