@@ -1,4 +1,5 @@
 //Representa um carro genérico (superclasse de carros populares e esportivos).
+package model;
 public abstract class Carro {
     //Atributos
     protected String modelo; //Modelo do Carro

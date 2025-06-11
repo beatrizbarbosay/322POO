@@ -1,4 +1,5 @@
 //Representa um piloto
+package model;
 public class Piloto {
     //Atributos
     private String nome; //Nome
