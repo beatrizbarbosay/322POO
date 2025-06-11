@@ -32,7 +32,7 @@ public class TelaLogin extends Application {
                 if (u.isAdmin()) {
                     TelaAdmin.exibir();
                 } else {
-                    TelaUsuario.exibir();
+                    TelaUsuario.exibir(nome);
                 }
                 primaryStage.close();
             } else {
@@ -44,7 +44,7 @@ public class TelaLogin extends Application {
             TelaCadastro.exibir();
         });
 
-        Scene scene = new Scene(root, 600, 500);
+        Scene scene = new Scene(root, 1200, 1000);
 
         scene.getStylesheets().add(getClass().getResource("/resources/estilo.css").toExternalForm());
 
@@ -54,11 +54,17 @@ public class TelaLogin extends Application {
         primaryStage.show();
     }
 
-    private void mostrarAlerta(String titulo, String mensagem) {
+    private static void mostrarAlerta(String titulo, String mensagem) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensagem);
+
+        // Aplica seu CSS ao diálogo do Alert
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(TelaLogin.class.getResource("/resources/estilo.css").toExternalForm());
+        dialogPane.getStyleClass().add("alert");  // Opcional: adiciona uma classe CSS para alertas
+
         alert.showAndWait();
     }
 

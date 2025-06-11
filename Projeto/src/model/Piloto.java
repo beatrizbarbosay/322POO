@@ -1,6 +1,10 @@
 //Representa um piloto
+
 package model;
-public class Piloto {
+
+import java.io.Serializable;
+
+public class Piloto implements Serializable {
     //Atributos
     private String nome; //Nome
     private int idade; //Idade

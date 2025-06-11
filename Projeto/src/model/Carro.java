@@ -1,6 +1,9 @@
 //Representa um carro genérico (superclasse de carros populares e esportivos).
 package model;
-public abstract class Carro {
+
+import java.io.Serializable;
+
+public abstract class Carro implements Serializable {
     //Atributos
     protected String modelo; //Modelo do Carro
     protected double velocidadeMax; //Valor para diferenciar performance dos carros

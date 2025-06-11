@@ -54,6 +54,12 @@ public class TelaCadastro {
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensagem);
+
+        // Aplica seu CSS ao diálogo do Alert
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(TelaCadastro.class.getResource("/resources/estilo.css").toExternalForm());
+        dialogPane.getStyleClass().add("alert");  // Opcional: adiciona uma classe CSS para alertas
+
         alert.showAndWait();
     }
 }
