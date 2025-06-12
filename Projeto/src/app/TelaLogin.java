@@ -44,7 +44,7 @@ public class TelaLogin extends Application {
             TelaCadastro.exibir();
         });
 
-        Scene scene = new Scene(root, 1200, 1000);
+        Scene scene = new Scene(root, 600, 500);
 
         scene.getStylesheets().add(getClass().getResource("/resources/estilo.css").toExternalForm());
 
