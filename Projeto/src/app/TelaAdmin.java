@@ -25,7 +25,7 @@ public class TelaAdmin {
         // Configurar ações dos botões
         btnCadastrarCarro.setOnAction(e -> TelaCadastroCarro.exibir());
         btnCadastrarPiloto.setOnAction(e -> TelaCadastroPiloto.exibir());
-        btnCriarCorrida.setOnAction(e -> System.out.println("Abrir criação de corrida"));
+        btnCriarCorrida.setOnAction(e -> TelaCriarCorrida.exibir());
 
         // Configurar layout
         VBox layout = new VBox(20);
