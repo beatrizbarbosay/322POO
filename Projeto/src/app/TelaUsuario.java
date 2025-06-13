@@ -16,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.util.Callback;
 import java.io.InputStream;
 import model.*;
@@ -54,7 +55,7 @@ public class TelaUsuario {
         layout.getStyleClass().add("painel-principal");
         layout.getChildren().addAll(titulo, btnCorridas, btnEstatPilotos, btnEstatCarros, btnHistApostas);
 
-        Scene scene = new Scene(layout, 1200, 1000);
+        Scene scene = new Scene(layout, 1200, 800);
         scene.getStylesheets().add(TelaUsuario.class.getResource("/estilo.css").toExternalForm());
         stage.setScene(scene);
         stage.centerOnScreen();
@@ -71,14 +72,125 @@ public class TelaUsuario {
     }
 
     private static void exibirCorridasDisponiveis() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Corridas Disponíveis");
-        alert.setHeaderText(null);
-        alert.setContentText("Ainda não há corridas disponíveis.");
-        alert.showAndWait();
+        Stage corridasStage = new Stage();
+        corridasStage.setTitle("Corridas Disponíveis - " + usuarioAtual);
+
+        // Título
+        Label titulo = new Label("CORRIDAS DISPONÍVEIS");
+        titulo.getStyleClass().add("titulo-secundario");
+
+        // Tabela de corridas
+        TableView<Corrida> tabela = new TableView<>();
+        tabela.getStyleClass().add("tabela-corrida");
+
+        // Colunas
+        TableColumn<Corrida, String> colNome = criarColunaTabela("NOME", "nome", 640);
+        TableColumn<Corrida, String> colLocal = criarColunaTabela("LOCAL", "local", 250);
+        TableColumn<Corrida, Double> colDistancia = criarColunaTabela("DISTÂNCIA (km)", "distancia", 265);
+
+        tabela.getColumns().addAll(colNome, colLocal, colDistancia);
+        tabela.setItems(FXCollections.observableArrayList(BancoCorridas.getTodasCorridas()));
+
+        // Botão para ver detalhes
+        Button btnDetalhes = new Button("Ver Detalhes");
+        btnDetalhes.getStyleClass().add("botao-grande");
+        btnDetalhes.setOnAction(e -> {
+            Corrida selecionada = tabela.getSelectionModel().getSelectedItem();
+            if (selecionada != null) {
+                exibirDetalhesCorrida(selecionada);
+            } else {
+                mostrarAlerta("Aviso", "Selecione uma corrida para ver os detalhes");
+            }
+        });
+
+        // Layout
+        VBox layout = new VBox(15, titulo, tabela, btnDetalhes);
+        layout.setPadding(new Insets(20));
+        layout.setAlignment(Pos.TOP_CENTER);
+        layout.getStyleClass().add("painel-secundario");
+
+        VBox.setVgrow(tabela, Priority.ALWAYS);
+
+        Scene scene = new Scene(layout, 1200, 800);
+        scene.getStylesheets().add(TelaUsuario.class.getResource("/estilo.css").toExternalForm());
+        corridasStage.setScene(scene);
+        corridasStage.centerOnScreen();
+        corridasStage.show();
+        corridasStage.setResizable(false);
     }
 
+    private static <S, T> TableColumn<S, T> criarColunaTabela(String titulo, String propriedade, double largura) {
+        TableColumn<S, T> coluna = new TableColumn<>(titulo);
+        coluna.setCellValueFactory(new PropertyValueFactory<>(propriedade));
+        coluna.setPrefWidth(largura);
+        coluna.setResizable(false);
+        coluna.getStyleClass().add("coluna-tabela");
+        coluna.setStyle("-fx-font-size: 25px;");
+        return coluna;
+    }
 
+    private static void exibirDetalhesCorrida(Corrida corrida) {
+        Stage detalhesStage = new Stage();
+        detalhesStage.setTitle("Detalhes da Corrida - " + corrida.getNome());
+
+        // Título com fonte maior
+        Label titulo = new Label(corrida.getNome());
+        titulo.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
+
+        // Informações básicas com fonte aumentada
+        Label info = new Label(String.format("Local: %s | Distância: %.2f km", 
+            corrida.getLocal(), corrida.getDistancia()));
+        info.setStyle("-fx-font-size: 18px; -fx-text-fill: #34495e;");
+
+        // Tabela de participantes com estilo aprimorado
+        TableView<ParticipanteCorrida> tabela = new TableView<>();
+        tabela.setStyle("-fx-font-size: 18px;"); // Tamanho da fonte aumentado
+        
+        // Limitar a exibição para 8 linhas
+        tabela.setFixedCellSize(50); // Altura fixa das células
+        tabela.setPrefHeight(9 * 50); // 8 linhas * altura + cabeçalho
+
+        TableColumn<ParticipanteCorrida, String> colPiloto = new TableColumn<>();
+        colPiloto.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getPiloto().getNome()));
+        colPiloto.setPrefWidth(480);
+        colPiloto.setStyle("-fx-alignment: CENTER; -fx-font-size: 18px;");
+        
+        TableColumn<ParticipanteCorrida, String> colCarro = new TableColumn<>();
+        colCarro.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getCarro().getModelo()));
+        colCarro.setPrefWidth(480);
+        colCarro.setStyle("-fx-alignment: CENTER; -fx-font-size: 18px;");
+
+        tabela.getColumns().addAll(colPiloto, colCarro);
+        tabela.setItems(FXCollections.observableArrayList(corrida.getParticipantes()));
+
+        // Configurar cabeçalhos das colunas
+        colPiloto.setGraphic(createHeader("PILOTO"));
+        colCarro.setGraphic(createHeader("CARRO"));
+
+        // Botão para simular corrida com estilo aprimorado
+        Button btnSimular = new Button("SIMULAR CORRIDA");
+        btnSimular.setStyle("-fx-font-size: 20px; -fx-padding: 15 40; -fx-background-color: #27ae60; -fx-text-fill: white;");
+
+        // Layout
+        VBox layout = new VBox(20, titulo, info, tabela, btnSimular);
+        layout.setPadding(new Insets(30));
+        layout.setAlignment(Pos.TOP_CENTER);
+        layout.setStyle("-fx-background-color: #f5f5f5;");
+
+        Scene scene = new Scene(layout, 1200, 800); // Ajuste de tamanho
+        detalhesStage.setResizable(false);
+        detalhesStage.setScene(scene);
+        detalhesStage.centerOnScreen();
+        detalhesStage.show();
+    }
+
+    // Método auxiliar para criar cabeçalhos estilizados
+    private static Label createHeader(String text) {
+        Label label = new Label(text);
+        label.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
+        label.setPadding(new Insets(10));
+        return label;
+    }
     private static final Map<String, String> COUNTRY_CODES = new HashMap<>();
 
     static {
