@@ -1,12 +1,21 @@
 package app;
 
-import javafx.geometry.*;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.stage.*;
-import model.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import model.BancoPilotos;
+import model.Piloto;
+import model.Sexo;
 
+// Tela para cadastro de pilotos com informações pessoais.
 public class TelaCadastroPiloto {
     public static void exibir() {
         Stage stage = new Stage();
@@ -38,6 +47,7 @@ public class TelaCadastroPiloto {
         Button btnCadastrar = new Button("Cadastrar");
         btnCadastrar.setPrefWidth(200);
         
+         // Validação e cadastro
         btnCadastrar.setOnAction(e -> {
             try {
                 String nome = tfNome.getText();
@@ -59,9 +69,11 @@ public class TelaCadastroPiloto {
             }
         });
 
+        //Layout.
         VBox root = new VBox(20, grid, btnCadastrar);
         root.setAlignment(Pos.CENTER);
 
+        //Configuração da cena.
         Scene scene = new Scene(root, 600, 400);
         scene.getStylesheets().add(TelaCadastroPiloto.class.getResource("/resources/estilo.css").toExternalForm());
         stage.setScene(scene);
@@ -69,6 +81,7 @@ public class TelaCadastroPiloto {
         stage.setResizable(false);
     }
 
+    // Exibe um alerta estilizado com mensagem de feedback.
     private static void mostrarAlerta(String titulo, String mensagem) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);

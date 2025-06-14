@@ -1,5 +1,6 @@
 package model;
 
+// Enum que representa os gêneros disponíveis para pilotos.
 public enum Sexo {
     MASCULINO("Masculino"),
     FEMININO("Feminino"),
@@ -11,8 +12,4 @@ public enum Sexo {
         this.descricao = descricao;
     }
 
-    @Override
-    public String toString() {
-        return descricao;
-    }
 }

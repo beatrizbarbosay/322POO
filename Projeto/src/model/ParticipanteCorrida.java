@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 
+// Representa a combinação piloto + carro em uma corrida.
 public class ParticipanteCorrida implements Serializable {
     private Piloto piloto;
     private Carro carro;
@@ -11,12 +12,18 @@ public class ParticipanteCorrida implements Serializable {
         this.carro = carro;
     }
 
-    // Métodos getters
-    public Piloto getPiloto() { return piloto; }
-    public Carro getCarro() { return carro; }
+    // Métodos de acesso.
+    public Piloto getPiloto() {
+        return piloto;
+    }
+    public Carro getCarro() {
+        return carro;
+    }
 
     @Override
+    // Formato: "NomePiloto - ModeloCarro".
     public String toString() {
         return piloto.getNome() + " - " + carro.getModelo();
     }
+
 }

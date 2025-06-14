@@ -2,6 +2,7 @@ package model;
 
 import javafx.beans.property.*;
 
+// Classe para exibir estatísticas de pilotos em tabelas JavaFX.
 public class PilotoEstatistica {
     private final StringProperty nome;
     private final IntegerProperty idade;
@@ -15,15 +16,31 @@ public class PilotoEstatistica {
         this.tempoMedio = new SimpleDoubleProperty(tempoMedio);
     }
 
-    // Getters para as propriedades
-    public StringProperty nomeProperty() { return nome; }
-    public IntegerProperty idadeProperty() { return idade; }
-    public StringProperty nacionalidadeProperty() { return nacionalidade; }
-    public DoubleProperty tempoMedioProperty() { return tempoMedio; }
+    // Getters para propriedades (usados em bindings JavaFX).
+    public StringProperty nomeProperty() {
+        return nome;
+    }
+    public IntegerProperty idadeProperty() {
+        return idade;
+    }
+    public StringProperty nacionalidadeProperty() {
+        return nacionalidade;
+    }
+    public DoubleProperty tempoMedioProperty() {
+        return tempoMedio;
+    }
 
-    // Getters convencionais
-    public String getNome() { return nome.get(); }
-    public int getIdade() { return idade.get(); }
-    public String getNacionalidade() { return nacionalidade.get(); }
-    public double getTempoMedio() { return tempoMedio.get(); }
+    // Getters convencionais.
+    public String getNome() {
+        return nome.get();
+    }
+    public int getIdade() {
+        return idade.get();
+    }
+    public String getNacionalidade() {
+        return nacionalidade.get();
+    }
+    public double getTempoMedio() {
+        return tempoMedio.get();
+    }
 }

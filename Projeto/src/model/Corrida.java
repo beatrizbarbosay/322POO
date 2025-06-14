@@ -4,11 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+// Representa uma corrida com participantes (pilotos + carros).
 public class Corrida implements Serializable {
-    private String nome;
-    private String local;
-    private double distancia;
-    private List<ParticipanteCorrida> participantes;
+    private String nome;  // Nome da corrida.
+    private String local;  // Local da corrida.
+    private double distancia;  // Distância em km.
+    private List<ParticipanteCorrida> participantes;  // Pilotos e carros inscritos.
 
     public Corrida(String nome, String local, double distancia) {
         this.nome = nome;
@@ -17,18 +18,27 @@ public class Corrida implements Serializable {
         this.participantes = new ArrayList<>();
     }
 
-    // Métodos getters
-    public String getNome() { return nome; }
-    public String getLocal() { return local; }
-    public double getDistancia() { return distancia; }
-    public List<ParticipanteCorrida> getParticipantes() { return participantes; }
+    // Métodos de acesso.
+    public String getNome() {
+        return nome;
+    }
+    public String getLocal() {
+        return local;
+    }
+    public double getDistancia() {
+        return distancia;
+    }
+    public List<ParticipanteCorrida> getParticipantes() {
+        return participantes;
+    }
 
-    // Método para adicionar participante
+    // Adiciona um novo participante (piloto + carro).
     public void adicionarParticipante(Piloto piloto, Carro carro) {
         participantes.add(new ParticipanteCorrida(piloto, carro));
     }
 
     @Override
+    // Formato: "Nome - Local (X km)".
     public String toString() {
         return nome + " - " + local + " (" + distancia + " km)";
     }

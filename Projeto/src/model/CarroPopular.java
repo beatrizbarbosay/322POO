@@ -1,5 +1,6 @@
-//Representa um carro polular
 package model;
+
+// Representa um carro popular (subclasse de Carro).
 public class CarroPopular extends Carro {
     public CarroPopular(String modelo, double velocidadeMax) {
         super(modelo, velocidadeMax);

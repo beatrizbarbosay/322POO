@@ -1,20 +1,18 @@
-//Representa um carro genérico (superclasse de carros populares e esportivos).
 package model;
 
 import java.io.Serializable;
 
+// Classe abstrata que representa um carro genérico.
 public abstract class Carro implements Serializable {
-    //Atributos
-    protected String modelo; //Modelo do Carro
-    protected double velocidadeMax; //Valor para diferenciar performance dos carros
+    protected String modelo;  // Modelo do carro (ex: "Fusca").
+    protected double velocidadeMax;  // Em km/h.
 
-    //Método construtor
     public Carro(String modelo, double velocidadeMax) {
         this.modelo = modelo;
         this.velocidadeMax = velocidadeMax;
     }
 
-    //Métodos getters
+    // Métodos de acesso.
     public String getModelo() {
         return modelo;
     }
@@ -22,10 +20,11 @@ public abstract class Carro implements Serializable {
         return velocidadeMax;
     }
 
-    public abstract String getTipo(); //Seá implementado pelas subclasses.
+    // Retorna o tipo específico do carro (implementado pelas subclasses).
+    public abstract String getTipo();
 
     @Override
-    //Exibe informações do carro
+    // Formato: "Modelo [Tipo] - VelocidadeMáxima: X km/h".
     public String toString() {
         return modelo + " [" + getTipo() + "]" + " - VelocidadeMáxima:" + velocidadeMax + "Km/h";
     }
