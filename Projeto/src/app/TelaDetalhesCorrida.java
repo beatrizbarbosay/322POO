@@ -45,8 +45,8 @@ public class TelaDetalhesCorrida{
         // Tabela de participantes
         TableView<ParticipanteCorrida> tabela = new TableView<>();
         tabela.setStyle("-fx-font-size: 18px;");
-        tabela.setFixedCellSize(50);
-        tabela.setPrefHeight(450);
+        tabela.setFixedCellSize(70);
+        tabela.setPrefHeight(630);
 
         // Coluna de pilotos
         TableColumn<ParticipanteCorrida, String> colPiloto = new TableColumn<>();
@@ -99,14 +99,53 @@ public class TelaDetalhesCorrida{
         colCarro.setPrefWidth(480);
         colCarro.setStyle("-fx-alignment: CENTER; -fx-font-size: 18px;");
 
+        // Coluna de Imagem do Carro
+        TableColumn<ParticipanteCorrida, String> colImagemCarro = new TableColumn<>();
+        colImagemCarro.setPrefWidth(200);
+        colImagemCarro.setStyle("-fx-alignment: CENTER;");
+        colImagemCarro.setCellFactory(new Callback<>() {
+            @Override
+            public TableCell<ParticipanteCorrida, String> call(TableColumn<ParticipanteCorrida, String> param) {
+                return new TableCell<>() {
+                    private final ImageView imageView = new ImageView();
+                    {
+                        imageView.setFitWidth(140);
+                        imageView.setPreserveRatio(true);
+                        imageView.setSmooth(true);
+                    }
+
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            try {
+                                String modelo = getTableView().getItems().get(getIndex()).getCarro().getModelo();
+                                InputStream is = TelaDetalhesCorrida.class.getResourceAsStream("/cars/" + modelo.toLowerCase().replace(" ", "_") + ".png");
+                                if (is != null) {
+                                    imageView.setImage(new Image(is));
+                                    setGraphic(imageView);
+                                }
+                            } catch (Exception e) {
+                                setGraphic(null);
+                            }
+                        }
+                    }
+                };
+            }
+        });
+
         // Adiciona colunas e dados
-        tabela.getColumns().addAll(colPiloto, colBandeira, colCarro);
+        tabela.getColumns().addAll(colPiloto, colBandeira, colCarro, colImagemCarro);
         tabela.setItems(FXCollections.observableArrayList(corrida.getParticipantes()));
 
         // Configurar cabeçalhos
         colPiloto.setGraphic(createHeader("PILOTO"));
         colBandeira.setGraphic(createHeader("PAÍS"));
-        colCarro.setGraphic(createHeader("CARRO"));
+        colCarro.setGraphic(createHeader("MODELO"));
+        colImagemCarro.setGraphic(createHeader("CARRO"));
+
 
         // Botão para simular corrida
         Button btnSimular = new Button("SIMULAR CORRIDA");
