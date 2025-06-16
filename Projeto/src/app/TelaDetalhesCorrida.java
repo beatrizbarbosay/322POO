@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.scene.control.TableRow;
 import model.Corrida;
 import model.ParticipanteCorrida;
 import model.Piloto;
@@ -52,16 +53,18 @@ public class TelaDetalhesCorrida {
         Button btnSimular = new Button("SIMULAR CORRIDA");
         btnSimular.setStyle("-fx-font-size: 20px; -fx-padding: 15 40; -fx-background-color: #27ae60; -fx-text-fill: white;");
 
-        btnSimular.setOnAction(e -> {
-            corrida.simularCorrida();
-            atualizarTabelaResultados(tabela, corrida);
-        });
 
         // Layout
-        VBox layout = new VBox(20, titulo, info, tabela, btnSimular);
+        final VBox layout = new VBox(20, titulo, info, tabela, btnSimular);
         layout.setPadding(new Insets(30));
         layout.setAlignment(Pos.TOP_CENTER);
         layout.setStyle("-fx-background-color: #f5f5f5;");
+
+        btnSimular.setOnAction(e -> {
+            corrida.simularCorrida();
+            atualizarTabelaResultados(tabela, corrida);
+            layout.getChildren().remove(btnSimular);
+        });
 
         // Configura e exibe a janela
         Scene scene = new Scene(layout, 1200, 800);
@@ -175,20 +178,115 @@ public class TelaDetalhesCorrida {
         
         tabela.setItems(FXCollections.observableArrayList(participantesOrdenados));
         
-        // Adiciona coluna de resultados se não existir
-        if (tabela.getColumns().size() <= 4) {
-            TableColumn<ParticipanteCorrida, String> colResultado = new TableColumn<>("RESULTADO");
-            colResultado.setPrefWidth(200);
-            colResultado.setStyle("-fx-alignment: CENTER; -fx-font-size: 18px;");
-            colResultado.setCellValueFactory(cd -> {
-                Piloto p = cd.getValue().getPiloto();
-                double tempo = corrida.getResultados().get(p);
-                return new SimpleStringProperty(String.format("%.2f segundos", tempo * 3600));
-            });
-            tabela.getColumns().add(colResultado);
-            colResultado.setGraphic(createHeader("TEMPO"));
-        }
+        // Remove todas as colunas existentes para reconstruir a tabela
+        tabela.getColumns().clear();
+
+        // Coluna de Posição
+        TableColumn<ParticipanteCorrida, String> colPosicao = new TableColumn<>();
+        colPosicao.setPrefWidth(100);
+        colPosicao.setStyle("-fx-alignment: CENTER; -fx-font-size: 18px;");
+        colPosicao.setCellValueFactory(cd -> {
+            int index = tabela.getItems().indexOf(cd.getValue()) + 1;
+            String posicao = index + "°";
+            return new SimpleStringProperty(posicao);
+        });
+        colPosicao.setGraphic(createHeader("POSIÇÃO"));
+
+        // Coluna de Pilotos
+        TableColumn<ParticipanteCorrida, String> colPiloto = new TableColumn<>();
+        colPiloto.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getPiloto().getNome()));
+        colPiloto.setPrefWidth(345);
+        colPiloto.setStyle("-fx-alignment: CENTER; -fx-font-size: 18px;");
+        colPiloto.setGraphic(createHeader("PILOTO"));
+
+        // Coluna de Bandeiras (mantida do código original)
+        TableColumn<ParticipanteCorrida, String> colBandeira = new TableColumn<>();
+        colBandeira.setPrefWidth(90);
+        colBandeira.setStyle("-fx-alignment: CENTER;");
+        colBandeira.setCellFactory(param -> new TableCell<>() {
+            private final ImageView imageView = new ImageView();
+            {
+                imageView.setFitWidth(30);
+                imageView.setPreserveRatio(true);
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    try {
+                        String pais = getTableView().getItems().get(getIndex()).getPiloto().getNacionalidade();
+                        String code = Bandeiras.getCountryCode(pais);
+                        InputStream is = getClass().getResourceAsStream("/flags/" + code + ".png");
+                        if (is != null) {
+                            imageView.setImage(new Image(is));
+                            setGraphic(imageView);
+                        } else {
+                            setGraphic(null);
+                        }
+                    } catch (Exception e) {
+                        setGraphic(null);
+                    }
+                }
+            }
+        });
+        colBandeira.setGraphic(createHeader("PAÍS"));
+
+        // Coluna de Carros
+        TableColumn<ParticipanteCorrida, String> colCarro = new TableColumn<>();
+        colCarro.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getCarro().getModelo()));
+        colCarro.setPrefWidth(380);
+        colCarro.setStyle("-fx-alignment: CENTER; -fx-font-size: 18px;");
+        colCarro.setGraphic(createHeader("MODELO"));
+
+        // Coluna de Resultado
+        TableColumn<ParticipanteCorrida, String> colResultado = new TableColumn<>();
+        colResultado.setPrefWidth(200);
+        colResultado.setStyle("-fx-alignment: CENTER; -fx-font-size: 18px;");
+        colResultado.setCellValueFactory(cd -> {
+            Piloto p = cd.getValue().getPiloto();
+            double tempo = corrida.getResultados().get(p);
+            return new SimpleStringProperty(String.format("%.2f segundos", tempo * 3600));
+        });
+        colResultado.setGraphic(createHeader("TEMPO"));
+
+        // Adiciona todas as colunas à tabela
+        tabela.getColumns().addAll(colPosicao, colPiloto, colBandeira, colCarro, colResultado);
+
+        // Configura o row factory para colorir as linhas
+        tabela.setRowFactory(tv -> new TableRow<ParticipanteCorrida>() {
+            @Override
+            protected void updateItem(ParticipanteCorrida item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setStyle("");
+                } else {
+                    int index = getIndex();
+                    if (index == 0) {
+                        // Ouro para o primeiro lugar
+                        setStyle("-fx-background-color: linear-gradient(to bottom, #FFD700, #FFEC8B); " +
+                                "-fx-font-weight: bold; -fx-font-size: 18px;");
+                    } else if (index == 1) {
+                        // Prata para o segundo lugar
+                        setStyle("-fx-background-color: linear-gradient(to bottom, #C0C0C0, #E6E6E6); " +
+                                "-fx-font-weight: bold; -fx-font-size: 18px;");
+                    } else if (index == 2) {
+                        // Bronze para o terceiro lugar
+                        setStyle("-fx-background-color: linear-gradient(to bottom, #CD7F32, #E6C8A5); " +
+                                "-fx-font-weight: bold; -fx-font-size: 18px;");
+                    } else {
+                        setStyle("");
+                    }
+                }
+            }
+        });
+
+        // Força a atualização da tabela
+        tabela.refresh();
     }
+
 
     private static Label createHeader(String text) {
         Label label = new Label(text);
