@@ -24,6 +24,9 @@ import model.BancoPilotos;
 import model.Carro;
 import model.Corrida;
 import model.Piloto;
+import model.CarroEsportivo;
+import model.CarroPopular;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,7 @@ public class TelaCriarCorrida {
     // Listas para armazenar os comboboxes de seleção
     private static List<ComboBox<Piloto>> comboPilotos = new ArrayList<>();
     private static List<ComboBox<Carro>> comboCarros = new ArrayList<>();
+    private static ComboBox<String> cbTipoCorrida;
 
     //Exibe a janela de criação de corrida e Configura todos os elementos visuais e lógica de interação.
     public static void exibir() {
@@ -60,18 +64,26 @@ public class TelaCriarCorrida {
                           "-fx-background-radius: 10;" +
                           "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);");
 
+        // Adiciona o ComboBox para seleção do tipo de corrida
+        cbTipoCorrida = new ComboBox<>();
+        cbTipoCorrida.getItems().addAll("Esportivo", "Popular");
+        cbTipoCorrida.setStyle("-fx-background-color: #f8f8f8; -fx-border-color: #bdc3c7; -fx-border-radius: 4;");
+        cbTipoCorrida.setPrefWidth(200);
+
         // Campos de entrada
         TextField txtNome = criarCampoTexto();
         TextField txtLocal = criarCampoTexto();
         TextField txtDistancia = criarCampoTexto();
 
         // Adiciona campos ao formulário
-        formulario.add(new Label("Nome da Corrida:"), 0, 0);
-        formulario.add(txtNome, 1, 0);
-        formulario.add(new Label("Local:"), 0, 1);
-        formulario.add(txtLocal, 1, 1);
-        formulario.add(new Label("Distância (km):"), 0, 2);
-        formulario.add(txtDistancia, 1, 2);
+        formulario.add(new Label("Tipo de Corrida:"), 0, 0);
+        formulario.add(cbTipoCorrida, 1, 0);
+        formulario.add(new Label("Nome da Corrida:"), 0, 1);
+        formulario.add(txtNome, 1, 1);
+        formulario.add(new Label("Local:"), 0, 2);
+        formulario.add(txtLocal, 1, 2);
+        formulario.add(new Label("Distância (km):"), 0, 3);
+        formulario.add(txtDistancia, 1, 3);
 
         // Aplica estilo uniforme aos labels do formulário
         String labelStyle = "-fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-font-size: 14px;";
@@ -94,7 +106,7 @@ public class TelaCriarCorrida {
 
             // Comboboxes para seleção
             ComboBox<Piloto> cbPiloto = criarComboPilotos();
-            ComboBox<Carro> cbCarro = criarComboCarros();
+            ComboBox<Carro> cbCarro = new ComboBox<>(); // Criado vazio, será preenchido após seleção do tipo
 
             // Armazena referências para validação posterior
             comboPilotos.add(cbPiloto);
@@ -107,6 +119,13 @@ public class TelaCriarCorrida {
             vagasPane.add(new Label("Carro:"), 3, i);
             vagasPane.add(cbCarro, 4, i);
         }
+
+        // Listener para atualizar os carros quando o tipo de corrida for selecionado
+        cbTipoCorrida.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                atualizarCombosCarros(newVal);
+            }
+        });
 
         // Adicionar scroll caso tenha muitas vagas
         ScrollPane scrollVagas = new ScrollPane(vagasPane);
@@ -128,25 +147,29 @@ public class TelaCriarCorrida {
         // Validações antes de criar a corrida
         btnCriar.setOnAction(e -> {
             try {
-                // VALIDAÇÃO 1: Os campos Nome, local e distância foram preenchidos
+                // VALIDAÇÃO 1: Tipo de corrida selecionado
+                if (cbTipoCorrida.getValue() == null) {
+                    throw new Exception("Selecione o tipo de corrida");
+                }
+                // VALIDAÇÃO 2: Os campos Nome, local e distância foram preenchidos
                 if (txtNome.getText().isEmpty() || txtLocal.getText().isEmpty() || txtDistancia.getText().isEmpty()) {
                     throw new Exception("Preencha todos os campos da corrida");
                 }
 
-                 // VALIDAÇÃO 2: O campo distância foi preenchido com um número
+                 // VALIDAÇÃO 3: O campo distância foi preenchido com um número
                 double distancia = Double.parseDouble(txtDistancia.getText());
                 if (distancia <= 0) {
                     throw new Exception("Distância deve ser maior que zero");
                 }
 
-                // VALIDAÇÃO 3: Todas as vagas foram preenchidas
+                // VALIDAÇÃO 4: Todas as vagas foram preenchidas
                 for (int i = 0; i < 8; i++) {
                     if (comboPilotos.get(i).getValue() == null || comboCarros.get(i).getValue() == null) {
                         throw new Exception("Preencha todas as vagas");
                     }
                 }
 
-                // VALIDAÇÃO 4: Cada piloto e carro foi selecionado apenas uma vez
+                // VALIDAÇÃO 5: Cada piloto e carro foi selecionado apenas uma vez
                 if (temDuplicatas(comboPilotos) || temDuplicatas(comboCarros)) {
                     throw new Exception("Não é permitido selecionar o mesmo piloto ou carro mais de uma vez");
                 }
@@ -197,6 +220,46 @@ public class TelaCriarCorrida {
         stage.centerOnScreen();
         stage.show();
     }
+
+    // Atualiza os comboboxes de carros com base no tipo de corrida selecionado
+    private static void atualizarCombosCarros(String tipoCorrida) {
+        List<Carro> carrosFiltrados = new ArrayList<>();
+        
+        for (Carro carro : BancoCarros.getTodosCarros()) {
+            if (tipoCorrida.equals("Esportivo")) {
+                if (carro instanceof CarroEsportivo) {
+                    carrosFiltrados.add(carro);
+                }
+            } else if (tipoCorrida.equals("Popular")) {
+                if (carro instanceof CarroPopular) {
+                    carrosFiltrados.add(carro);
+                }
+            }
+        }
+        
+        carrosFiltrados.sort((c1, c2) -> c1.getModelo().compareToIgnoreCase(c2.getModelo()));
+        
+        for (ComboBox<Carro> combo : comboCarros) {
+            combo.setItems(FXCollections.observableArrayList(carrosFiltrados));
+            combo.setConverter(new StringConverter<Carro>() {
+                @Override
+                public String toString(Carro carro) {
+                    return carro != null ? carro.getModelo() : "";
+                }
+
+                @Override
+                public Carro fromString(String string) {
+                    return null;
+                }
+            });
+            combo.setStyle("-fx-background-color: #f8f8f8; -fx-border-color: #bdc3c7; -fx-border-radius: 4;");
+            combo.setPrefWidth(200);
+        }
+    }
+
+
+
+
 
     // Cria um ComboBox para seleção de pilotos
     private static ComboBox<Piloto> criarComboPilotos() {
