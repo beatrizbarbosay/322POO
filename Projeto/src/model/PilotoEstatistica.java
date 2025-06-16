@@ -7,13 +7,13 @@ public class PilotoEstatistica {
     private final StringProperty nome;
     private final IntegerProperty idade;
     private final StringProperty nacionalidade;
-    private final DoubleProperty tempoMedio;
+    private final DoubleProperty nivel;
 
-    public PilotoEstatistica(String nome, int idade, String nacionalidade, double tempoMedio) {
+    public PilotoEstatistica(String nome, int idade, String nacionalidade, double nivel) {
         this.nome = new SimpleStringProperty(nome);
         this.idade = new SimpleIntegerProperty(idade);
         this.nacionalidade = new SimpleStringProperty(nacionalidade);
-        this.tempoMedio = new SimpleDoubleProperty(tempoMedio);
+        this.nivel = new SimpleDoubleProperty(nivel);
     }
 
     // Getters para propriedades (usados em bindings JavaFX).
@@ -26,8 +26,8 @@ public class PilotoEstatistica {
     public StringProperty nacionalidadeProperty() {
         return nacionalidade;
     }
-    public DoubleProperty tempoMedioProperty() {
-        return tempoMedio;
+    public DoubleProperty nivelProperty() {
+        return nivel;
     }
 
     // Getters convencionais.
@@ -40,7 +40,7 @@ public class PilotoEstatistica {
     public String getNacionalidade() {
         return nacionalidade.get();
     }
-    public double getTempoMedio() {
-        return tempoMedio.get();
+    public double getNivel() {
+        return nivel.get();
     }
 }

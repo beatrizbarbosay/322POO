@@ -102,35 +102,20 @@ public class TelaEstatisticasPilotos {
         }
     });
 
-        // Coluna de tempo médio
-        TableColumn<PilotoEstatistica, Double> colTempoMedio = criarColunaEstilizada("TEMPO MÉDIO (s)", "tempoMedio", 160);
-
-        // Formatação do tempo médio
-        colTempoMedio.setCellFactory(tc -> new TableCell<PilotoEstatistica, Double>() {
-            @Override
-            protected void updateItem(Double item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(String.format("%.3f", item));
-                    setStyle("-fx-alignment: CENTER;");
-                }
-            }
-        });
+        // Coluna de nível do piloto
+        TableColumn<PilotoEstatistica, Double> colNivel = criarColunaEstilizada("NÍVEL", "nivel", 160);
 
         // Adiciona colunas
-        tabela.getColumns().addAll(colNome, colIdade, colNacionalidade, colTempoMedio);
+        tabela.getColumns().addAll(colNome, colIdade, colNacionalidade, colNivel);
         
         // Carrega dados dos pilotos
         ObservableList<PilotoEstatistica> dados = FXCollections.observableArrayList();
         for (Piloto piloto : BancoPilotos.getTodosPilotos()) {
-            double tempoMedio = 0;
             dados.add(new PilotoEstatistica(
                 piloto.getNome(),
                 piloto.getIdade(),
                 piloto.getNacionalidade(),
-                tempoMedio
+                piloto.getNivel()
             ));
         }
         tabela.setItems(dados);

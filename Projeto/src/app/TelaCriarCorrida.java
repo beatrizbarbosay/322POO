@@ -87,8 +87,8 @@ public class TelaCriarCorrida {
         vagasPane.setVgap(10);
         vagasPane.setPadding(new Insets(15));
 
-        // Cria 15 vagas (pares de piloto+carro)
-        for (int i = 0; i < 15; i++) {
+        // Cria 8 vagas (pares de piloto+carro)
+        for (int i = 0; i < 8; i++) {
             Label lblVaga = new Label("Vaga " + (i + 1) + ":");
             lblVaga.setStyle(labelStyle);
 
@@ -139,27 +139,14 @@ public class TelaCriarCorrida {
                     throw new Exception("Distância deve ser maior que zero");
                 }
 
-                // VALIDAÇÃO 3: Vagas obrigatórias (8 primeiras)
+                // VALIDAÇÃO 3: Todas as vagas foram preenchidas
                 for (int i = 0; i < 8; i++) {
                     if (comboPilotos.get(i).getValue() == null || comboCarros.get(i).getValue() == null) {
-                        throw new Exception("Preencha todas as vagas obrigatórias (1-8)");
+                        throw new Exception("Preencha todas as vagas");
                     }
                 }
 
-                // Validação 4: Todo piloto possue um carro e vice-versa
-                for (int i = 0; i < 15; i++) {
-                    boolean temPiloto = comboPilotos.get(i).getValue() != null;
-                    boolean temCarro = comboCarros.get(i).getValue() != null;
-                    
-                    if (temPiloto && !temCarro) {
-                        throw new Exception("Vaga " + (i + 1) + ": Piloto sem carro selecionado");
-                    }
-                    if (!temPiloto && temCarro) {
-                        throw new Exception("Vaga " + (i + 1) + ": Carro sem piloto selecionado");
-                    }
-                }
-
-                // VALIDAÇÃO 5: Cada piloto e carro foi selecionado apenas uma vez
+                // VALIDAÇÃO 4: Cada piloto e carro foi selecionado apenas uma vez
                 if (temDuplicatas(comboPilotos) || temDuplicatas(comboCarros)) {
                     throw new Exception("Não é permitido selecionar o mesmo piloto ou carro mais de uma vez");
                 }
@@ -167,8 +154,8 @@ public class TelaCriarCorrida {
                 // Criar a corrida
                 Corrida corrida = new Corrida(txtNome.getText(), txtLocal.getText(), distancia);
 
-                // Adiciona participantes (considera até 15 vagas)
-                for (int i = 0; i < 15; i++) {
+                // Adiciona participantes
+                for (int i = 0; i < 8; i++) {
                     corrida.adicionarParticipante(
                         comboPilotos.get(i).getValue(),
                         comboCarros.get(i).getValue()

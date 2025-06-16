@@ -17,18 +17,20 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Corrida;
 import model.ParticipanteCorrida;
+import model.Piloto;
 import util.Bandeiras;
-
 import java.io.InputStream;
+import java.util.Comparator;
+import java.util.stream.Collectors;
+import java.util.List;
 
-public class TelaDetalhesCorrida{
+public class TelaDetalhesCorrida {
     private static Stage stage;
 
     public TelaDetalhesCorrida(Stage stage) {
-        stage = new Stage();
+        TelaDetalhesCorrida.stage = stage;
     }
 
-    // Exibe os detalhes de uma corrida específica
     public static void exibir(Corrida corrida) {
         Stage detalhesStage = new Stage();
         detalhesStage.setTitle("Detalhes da Corrida - " + corrida.getNome());
@@ -43,6 +45,33 @@ public class TelaDetalhesCorrida{
         info.setStyle("-fx-font-size: 18px; -fx-text-fill: #34495e;");
 
         // Tabela de participantes
+        TableView<ParticipanteCorrida> tabela = criarTabelaParticipantes();
+        tabela.setItems(FXCollections.observableArrayList(corrida.getParticipantes()));
+
+        // Botão para simular corrida
+        Button btnSimular = new Button("SIMULAR CORRIDA");
+        btnSimular.setStyle("-fx-font-size: 20px; -fx-padding: 15 40; -fx-background-color: #27ae60; -fx-text-fill: white;");
+
+        btnSimular.setOnAction(e -> {
+            corrida.simularCorrida();
+            atualizarTabelaResultados(tabela, corrida);
+        });
+
+        // Layout
+        VBox layout = new VBox(20, titulo, info, tabela, btnSimular);
+        layout.setPadding(new Insets(30));
+        layout.setAlignment(Pos.TOP_CENTER);
+        layout.setStyle("-fx-background-color: #f5f5f5;");
+
+        // Configura e exibe a janela
+        Scene scene = new Scene(layout, 1200, 800);
+        detalhesStage.setResizable(false);
+        detalhesStage.setScene(scene);
+        detalhesStage.centerOnScreen();
+        detalhesStage.show();
+    }
+
+    private static TableView<ParticipanteCorrida> criarTabelaParticipantes() {
         TableView<ParticipanteCorrida> tabela = new TableView<>();
         tabela.setStyle("-fx-font-size: 18px;");
         tabela.setFixedCellSize(70);
@@ -58,38 +87,33 @@ public class TelaDetalhesCorrida{
         TableColumn<ParticipanteCorrida, String> colBandeira = new TableColumn<>();
         colBandeira.setPrefWidth(90);
         colBandeira.setStyle("-fx-alignment: CENTER;");
-        colBandeira.setCellFactory(new Callback<>() {
-            @Override
-            public TableCell<ParticipanteCorrida, String> call(TableColumn<ParticipanteCorrida, String> param) {
-                return new TableCell<>() {
-                    private final ImageView imageView = new ImageView();
-                    {
-                        imageView.setFitWidth(30);
-                        imageView.setPreserveRatio(true);
-                    }
+        colBandeira.setCellFactory(param -> new TableCell<>() {
+            private final ImageView imageView = new ImageView();
+            {
+                imageView.setFitWidth(30);
+                imageView.setPreserveRatio(true);
+            }
 
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    try {
+                        String pais = getTableView().getItems().get(getIndex()).getPiloto().getNacionalidade();
+                        String code = Bandeiras.getCountryCode(pais);
+                        InputStream is = getClass().getResourceAsStream("/flags/" + code + ".png");
+                        if (is != null) {
+                            imageView.setImage(new Image(is));
+                            setGraphic(imageView);
                         } else {
-                            try {
-                                String pais = getTableView().getItems().get(getIndex()).getPiloto().getNacionalidade();
-                                String code = Bandeiras.getCountryCode(pais);
-                                InputStream is = getClass().getResourceAsStream("/flags/" + code + ".png");
-                                if (is != null) {
-                                    imageView.setImage(new Image(is));
-                                    setGraphic(imageView);
-                                } else {
-                                    setGraphic(null);
-                                }
-                            } catch (Exception e) {
-                                setGraphic(null);
-                            }
+                            setGraphic(null);
                         }
+                    } catch (Exception e) {
+                        setGraphic(null);
                     }
-                };
+                }
             }
         });
 
@@ -103,69 +127,69 @@ public class TelaDetalhesCorrida{
         TableColumn<ParticipanteCorrida, String> colImagemCarro = new TableColumn<>();
         colImagemCarro.setPrefWidth(200);
         colImagemCarro.setStyle("-fx-alignment: CENTER;");
-        colImagemCarro.setCellFactory(new Callback<>() {
-            @Override
-            public TableCell<ParticipanteCorrida, String> call(TableColumn<ParticipanteCorrida, String> param) {
-                return new TableCell<>() {
-                    private final ImageView imageView = new ImageView();
-                    {
-                        imageView.setFitWidth(140);
-                        imageView.setPreserveRatio(true);
-                        imageView.setSmooth(true);
-                    }
+        colImagemCarro.setCellFactory(param -> new TableCell<>() {
+            private final ImageView imageView = new ImageView();
+            {
+                imageView.setFitWidth(140);
+                imageView.setPreserveRatio(true);
+                imageView.setSmooth(true);
+            }
 
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            try {
-                                String modelo = getTableView().getItems().get(getIndex()).getCarro().getModelo();
-                                InputStream is = TelaDetalhesCorrida.class.getResourceAsStream("/cars/" + modelo.toLowerCase().replace(" ", "_") + ".png");
-                                if (is != null) {
-                                    imageView.setImage(new Image(is));
-                                    setGraphic(imageView);
-                                }
-                            } catch (Exception e) {
-                                setGraphic(null);
-                            }
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    try {
+                        String modelo = getTableView().getItems().get(getIndex()).getCarro().getModelo();
+                        InputStream is = TelaDetalhesCorrida.class.getResourceAsStream("/cars/" + modelo.toLowerCase().replace(" ", "_") + ".png");
+                        if (is != null) {
+                            imageView.setImage(new Image(is));
+                            setGraphic(imageView);
                         }
+                    } catch (Exception e) {
+                        setGraphic(null);
                     }
-                };
+                }
             }
         });
 
-        // Adiciona colunas e dados
+        // Adiciona colunas e configura cabeçalhos
         tabela.getColumns().addAll(colPiloto, colBandeira, colCarro, colImagemCarro);
-        tabela.setItems(FXCollections.observableArrayList(corrida.getParticipantes()));
-
-        // Configurar cabeçalhos
         colPiloto.setGraphic(createHeader("PILOTO"));
         colBandeira.setGraphic(createHeader("PAÍS"));
         colCarro.setGraphic(createHeader("MODELO"));
         colImagemCarro.setGraphic(createHeader("CARRO"));
 
-
-        // Botão para simular corrida
-        Button btnSimular = new Button("SIMULAR CORRIDA");
-        btnSimular.setStyle("-fx-font-size: 20px; -fx-padding: 15 40; -fx-background-color: #27ae60; -fx-text-fill: white;");
-
-        // Layout
-        VBox layout = new VBox(20, titulo, info, tabela, btnSimular);
-        layout.setPadding(new Insets(30));
-        layout.setAlignment(Pos.TOP_CENTER);
-        layout.setStyle("-fx-background-color: #f5f5f5;");
-
-        //Configura e exibe a janela
-        Scene scene = new Scene(layout, 1200, 800); // Ajuste de tamanho
-        detalhesStage.setResizable(false);
-        detalhesStage.setScene(scene);
-        detalhesStage.centerOnScreen();
-        detalhesStage.show();
+        return tabela;
     }
 
-    // Método auxiliar para criar cabeçalhos estilizados
+    private static void atualizarTabelaResultados(TableView<ParticipanteCorrida> tabela, Corrida corrida) {
+        if (!corrida.isSimulada()) return;
+
+        // Ordena participantes pelo tempo efetivo
+        List<ParticipanteCorrida> participantesOrdenados = corrida.getParticipantes().stream()
+            .sorted(Comparator.comparing(p -> corrida.getResultados().get(p.getPiloto())))
+            .collect(Collectors.toList());
+        
+        tabela.setItems(FXCollections.observableArrayList(participantesOrdenados));
+        
+        // Adiciona coluna de resultados se não existir
+        if (tabela.getColumns().size() <= 4) {
+            TableColumn<ParticipanteCorrida, String> colResultado = new TableColumn<>("RESULTADO");
+            colResultado.setPrefWidth(200);
+            colResultado.setStyle("-fx-alignment: CENTER; -fx-font-size: 18px;");
+            colResultado.setCellValueFactory(cd -> {
+                Piloto p = cd.getValue().getPiloto();
+                double tempo = corrida.getResultados().get(p);
+                return new SimpleStringProperty(String.format("%.2f segundos", tempo * 3600));
+            });
+            tabela.getColumns().add(colResultado);
+            colResultado.setGraphic(createHeader("TEMPO"));
+        }
+    }
+
     private static Label createHeader(String text) {
         Label label = new Label(text);
         label.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");

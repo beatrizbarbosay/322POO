@@ -9,12 +9,13 @@ public class BancoPilotos {
     private static final String ARQUIVO = "pilotos.dat";
     private static List<Piloto> pilotos = carregarDados();
 
-    // Adiciona um piloto e salva automaticamente.
-    public static void adicionarPiloto(Piloto piloto) {
-        pilotos.add(piloto);
+    public static void adicionarPiloto(Piloto novoPiloto) {
+        // Remove o piloto existente (se houver)
+        pilotos.removeIf(p -> p.getNome().equals(novoPiloto.getNome()));
+        // Adiciona o novo piloto
+        pilotos.add(novoPiloto);
         salvarDados();
     }
-
     // Retorna cópia da lista de pilotos.
     public static List<Piloto> getTodosPilotos() {
         return new ArrayList<>(pilotos);
