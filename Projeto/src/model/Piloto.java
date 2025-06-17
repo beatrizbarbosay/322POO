@@ -43,18 +43,31 @@ public class Piloto implements Serializable {
     }
 
     public void atualizarNivel(double desempenhoCorrida) {
+        // Garante que a lista de desempenhos não seja nula após desserialização
+        if (this.desempenhos == null) {
+            this.desempenhos = new ArrayList<>();
+        }
+        
         this.desempenhos.add(desempenhoCorrida);
+        calcularNivel(); // Recalcula o nível com base em TODOS os desempenhos
+        BancoPilotos.adicionarPiloto(this); // Força a persistência do piloto atualizado
+    }
+
+    private void calcularNivel() {
+        if (desempenhos == null || desempenhos.isEmpty()) {
+            this.nivel = 70; // Valor padrão se não houver histórico
+            return;
+        }
+
         double somaPonderada = 0;
         double pesoTotal = 0;
         
-        // Dá mais peso às corridas recentes
         for (int i = 0; i < desempenhos.size(); i++) {
-            double peso = Math.pow(1.1, i); // Fator de crescimento exponencial
+            double peso = Math.pow(1.1, i);
             somaPonderada += desempenhos.get(i) * peso;
             pesoTotal += peso;
         }
         
-        // Garante nível entre 30 e 100
         this.nivel = Math.max(30, Math.min(100, (somaPonderada / pesoTotal) * 100));
     }
 

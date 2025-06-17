@@ -183,7 +183,7 @@ public class TelaDetalhesCorrida {
 
         // Coluna de Posição
         TableColumn<ParticipanteCorrida, String> colPosicao = new TableColumn<>();
-        colPosicao.setPrefWidth(100);
+        colPosicao.setPrefWidth(120);
         colPosicao.setStyle("-fx-alignment: CENTER; -fx-font-size: 18px;");
         colPosicao.setCellValueFactory(cd -> {
             int index = tabela.getItems().indexOf(cd.getValue()) + 1;
@@ -195,7 +195,7 @@ public class TelaDetalhesCorrida {
         // Coluna de Pilotos
         TableColumn<ParticipanteCorrida, String> colPiloto = new TableColumn<>();
         colPiloto.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getPiloto().getNome()));
-        colPiloto.setPrefWidth(345);
+        colPiloto.setPrefWidth(352);
         colPiloto.setStyle("-fx-alignment: CENTER; -fx-font-size: 18px;");
         colPiloto.setGraphic(createHeader("PILOTO"));
 
