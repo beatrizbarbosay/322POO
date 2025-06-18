@@ -105,6 +105,19 @@ public class TelaEstatisticasPilotos {
         // Coluna de nível do piloto
         TableColumn<PilotoEstatistica, Double> colNivel = criarColunaEstilizada("NÍVEL", "nivel", 160);
 
+        // Formatação com 2 casas decimais
+        colNivel.setCellFactory(col -> new TableCell<PilotoEstatistica, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(String.format("%.2f", item));
+                }
+            }
+        });
+
         // Adiciona colunas
         tabela.getColumns().addAll(colNome, colIdade, colNacionalidade, colNivel);
         

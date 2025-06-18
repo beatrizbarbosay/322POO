@@ -39,7 +39,9 @@ public class TelaCorridasDisponiveis {
         // Cria e configura as colunas da tabela
         TableColumn<Corrida, String> colNome = criarColunaTabela("NOME", "nome", 638);
         TableColumn<Corrida, String> colLocal = criarColunaTabela("LOCAL", "local", 250);
+        colLocal.setStyle("-fx-font-size: 20px;");
         TableColumn<Corrida, Double> colDistancia = criarColunaTabela("DISTÂNCIA (km)", "distancia", 265);
+        colDistancia.setStyle("-fx-font-size: 20px;");
 
         // Adiciona colunas e dados à tabela
         tabela.getColumns().addAll(colNome, colLocal, colDistancia);

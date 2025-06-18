@@ -62,6 +62,7 @@ public class Corrida implements Serializable {
             temposEfetivos.put(piloto, tempoEfetivo);
             
             double desempenho = tempoIdeal / tempoEfetivo;
+            desempenho = Math.min(desempenho, 1.0);
             piloto.atualizarNivel(desempenho);
             
             // Atualiza o piloto no banco de dados
