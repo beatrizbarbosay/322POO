@@ -1,0 +1,5 @@
+[2025-06-27 16:13:32] --- Sessão de Log iniciada ---
+[2025-06-27 16:13:32] Main: Ambiente criado com dimensões 20x15x5.
+[2025-06-27 16:13:32] Main: Obstáculos adicionados ao ambiente.
+[2025-06-27 16:13:32] Main: Robôs adicionados. Missão de exploração definida para Wall-E.
+[2025-06-27 16:14:17] --- Sessão de Log finalizada ---
